@@ -212,11 +212,11 @@ class WC_Freterapido extends WC_Shipping_Method {
 				'type'             => 'text',
 				'description'      => __( 'Token de integração com o Frete Rápido.', 'woo-shipping-gateway' ),
 				'desc_tip'         => true
-			),
-			'testing' => array(
-				'title'            => __( 'Testing', 'woo-shipping-gateway' ),
-				'type'             => 'title'
 			)
+			// 'testing' => array(
+			// 	'title'            => __( 'Testing', 'woo-shipping-gateway' ),
+			// 	'type'             => 'title'
+			// ),
 			// 'debug' => array(
 			// 	'title'            => __( 'Debug Log', 'woo-shipping-gateway' ),
 			// 	'type'             => 'checkbox',

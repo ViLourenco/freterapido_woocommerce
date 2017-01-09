@@ -128,7 +128,7 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
     add_action( 'plugins_loaded', array( 'WC_Freterapido_Main', 'get_instance' ) );
 
     // ///////////////////////////
-    // create cep field in category page
+    // create custom fields in category page
     // ///////////////////////////
 
     //Product Cat creation page
@@ -213,7 +213,7 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
             <div class="form-field">
                 <label for="fr_origin_cep"><?php _e('Cep', 'text_domain'); ?></label>
                 <input type="text" name="fr_origin_cep" id="fr_origin_cep">
-                <!-- <p class="description"><?php _e('Digite o CEP de origem para esta', 'text_domain'); ?></p> -->
+                <p class="description"><?php _e('Apenas Números', 'text_domain'); ?></p>
             </div>
             <div class="form-field">
                 <label for="fr_origin_rua"><?php _e('Rua', 'text_domain'); ?></label>
@@ -235,6 +235,7 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
                 <input type="text" name="fr_origin_complemento" id="fr_origin_complemento">
                 <!-- <p class="description"><?php _e('Digite o CEP de origem para esta', 'text_domain'); ?></p> -->
             </div>
+            <hr>
         <?php
     }
 
@@ -353,6 +354,7 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
                 </th>
                 <td>
                     <input type="text" name="fr_origin_cep" id="fr_origin_cep" value="<?php echo esc_attr($term_meta['wh_meta_desc']) ? esc_attr($term_meta['wh_meta_title']) : ''; ?>">
+                    <p class="description"><?php _e('Apenas Números', 'text_domain'); ?></p>
                 </td>
             </tr>
             <tr class="form-field">
@@ -385,6 +387,13 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
                 </th>
                 <td>
                     <input type="text" name="fr_origin_complemento" id="fr_origin_complemento" value="<?php echo esc_attr($term_meta['wh_meta_desc']) ? esc_attr($term_meta['wh_meta_title']) : ''; ?>">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" valign="top">
+                </th>
+                <td>
+                    <hr>
                 </td>
             </tr>
         <?php
