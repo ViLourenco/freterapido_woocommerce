@@ -28,11 +28,11 @@ if ($Options['simulator'] === 'yes') {
             <input type="hidden" name="instance_id" id="instance_id" value="<?php echo $instance_id; ?>">
             <input type="hidden" name="additional_time" id="additional_time" value="<?php echo $additional_time; ?>">
             <input type="hidden" name="qty_simulator" id="qty_simulator" class="qty_simulator" value="1">
-            <button name="idx-calc_shipping" id="idx-calc_shipping" value="1" class="button">Ok</button>
+            <button name="idx-calc_shipping" id="idx-calc_shipping" value="1" class="button">Calcular</button>
             <br class="clear"/>
             <br>
             <div id='loading_simulator' style='display:none'>
-                <p>Aguarde...</p>
+                <p>Calculando...</p>
             </div>
             <div id="simulator-data"></div>
             <!--display data -->

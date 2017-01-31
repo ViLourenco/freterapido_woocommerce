@@ -35,12 +35,12 @@ jQuery(document).ready(function ($) {
         additional_time = $('#additional_time').val();
         additional_time = parseInt(additional_time, 10);
 
-        /*
+        // /*
         console.log('ID do produto: ' + product_id);
         console.log('ID da variacão (se for variavel): ' + $('.cart input[name="variation_id"]').val());
         console.log('CEP: ' + $('#shipping-simulator #zipcode').val());
         console.log('Additional Time: ' + additional_time);
-        */
+        // */
 
         $.ajax({
             type: 'POST',
