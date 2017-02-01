@@ -4,20 +4,17 @@
  */
 class WC_Freterapido extends WC_Shipping_Method {
 
-	/**
-	 * Initialize the Frete Rápido shipping method.
-	 *
-	 * @return void
-	 */
+    /**
+     * Initialize the Frete Rápido shipping method.
+     *
+     * @param int $instance_id
+     */
 	public function __construct($instance_id = 0 ) {
         $this->id           = 'freterapido';
         $this->instance_id 	= absint( $instance_id );
 		$this->method_title = __( 'Frete Rápido', 'woo-shipping-gateway' );
 
-        $this->supports              = array(
-            'shipping-zones',
-            'instance-settings'
-        );
+        $this->title = __( 'Frete Rápido', 'woo-shipping-gateway' ); // This can be added as an setting but for this example its forced.
 
 		$this->init();
 	}
@@ -28,40 +25,39 @@ class WC_Freterapido extends WC_Shipping_Method {
 	 * @return void
 	 */
 	public function init() {
-		// Frete Rápido Web Service.
-		$this->webservice = 'http://services.frenet.com.br/logistics/ShippingQuoteWS.asmx?wsdl';
+        // Frete Rápido Web Service.
+        $this->webservice = 'http://services.frenet.com.br/logistics/ShippingQuoteWS.asmx?wsdl';
 
-		// Load the form fields.
-		$this->init_form_fields();
+        // Load the form fields.
+        $this->init_form_fields();
 
-		// Load the settings.
-		$this->init_settings();
+        // Load the settings.
+        $this->init_settings();
 
-		// Define user set variables.
-		$this->enabled            = $this->get_option('enabled');
-		$this->zip_origin         = $this->get_option('zip_origin');
-		$this->cnpj              = $this->get_option('cnpj');
-		$this->correios_valordeclarado     = $this->get_option('correios_valordeclarado');
-		$this->correios_maopropria      = $this->get_option('correios_maopropria');
-		$this->correios_avisorecebimento     = $this->get_option('correios_avisorecebimento');
-    $this->results       = $this->get_option('results');
-    $this->limit              = $this->get_option('limit');
-    $this->additional_time    = $this->get_option('additional_time');
-    $this->additional_price              = $this->get_option( 'additional_price' );
-    $this->token              = $this->get_option('token');
-		// $this->debug              = $this->get_option('debug');
+        // Define user set variables.
+        $this->enabled = $this->get_option('enabled');
+        $this->zip_origin = $this->get_option('zip_origin');
+        $this->cnpj = $this->get_option('cnpj');
+        $this->correios_valordeclarado = $this->get_option('correios_valordeclarado');
+        $this->correios_maopropria = $this->get_option('correios_maopropria');
+        $this->correios_avisorecebimento = $this->get_option('correios_avisorecebimento');
+        $this->results = $this->get_option('results');
+        $this->limit = $this->get_option('limit');
+        $this->additional_time = $this->get_option('additional_time');
+        $this->additional_price = $this->get_option('additional_price');
+        $this->token = $this->get_option('token');
 
-		// Active logs.
-		if ( 'yes' == $this->debug ) {
-			if ( class_exists( 'WC_Logger' ) ) {
-				$this->log = new WC_Logger();
-			} else {
-				$this->log = $this->woocommerce_method()->logger();
-			}
-		}
+        // Active logs.
+        if ('yes' == $this->debug) {
+            if (class_exists('WC_Logger')) {
+                $this->log = new WC_Logger();
+            } else {
+                $this->log = $this->woocommerce_method()->logger();
+            }
+        }
 
-		// Actions.
-        add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
+        // Actions.
+        add_action('woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 	}
 
 	/**
@@ -213,17 +209,6 @@ class WC_Freterapido extends WC_Shipping_Method {
 				'description'      => __( 'Token de integração com o Frete Rápido.', 'woo-shipping-gateway' ),
 				'desc_tip'         => true
 			)
-			// 'testing' => array(
-			// 	'title'            => __( 'Testing', 'woo-shipping-gateway' ),
-			// 	'type'             => 'title'
-			// ),
-			// 'debug' => array(
-			// 	'title'            => __( 'Debug Log', 'woo-shipping-gateway' ),
-			// 	'type'             => 'checkbox',
-			// 	'label'            => __( 'Enable logging', 'woo-shipping-gateway' ),
-			// 	'default'          => 'no',
-			// 	'description'      => sprintf( __( 'Log Frete Rápido events, such as WebServices requests, inside %s.', 'woo-shipping-gateway' ), '<code>woocommerce/logs/frenet-' . sanitize_file_name( wp_hash( 'frenet' ) ) . '.txt</code>' )
-			// )
 		);
 
         $this->form_fields = $this->instance_form_fields;
@@ -322,45 +307,36 @@ class WC_Freterapido extends WC_Shipping_Method {
 	 * @return void
 	 */
 	public function calculate_shipping( $package = array() ) {
-		$rates  = array();
-        $errors = array();
-        if (isset($this->token) && $this->token != '')
-            $shipping_values = $this->freterapido_calculate_json( $package );
-        else
-            $shipping_values = $this->freterapido_calculate( $package );
+        $rate = array(
+            'id' => $this->id,
+            'label' => $this->title,
+            'cost' => '10.99',
+            'calc_tax' => 'per_item'
+        );
 
-        if ( ! empty( $shipping_values ) ) {
-            foreach ( $shipping_values as $code => $shipping ) {
+        $fr_categories = get_terms(['taxonomy' => 'fr_category', 'hide_empty' => false]);
 
-                if(!isset($shipping->ShippingPrice))
-                    continue;
+        $products = array_map(function ($item) {
+            $product = wc_get_product($item['product_id']);
 
-                // Set the shipping rates.
-                $label='';
-                $date=0;
-                if(isset($shipping->ServiceDescription) )
-                    $label=$shipping->ServiceDescription;
+            /** @var WC_Product_Simple $product */
+            $product = $item['data'];
 
-                if (isset($shipping->DeliveryTime))
-                    $date=$shipping->DeliveryTime;
+            $categories = get_term($product->id, 'product_cat');
 
-                $label = ( 'yes' == $this->display_date ) ? $this->estimating_delivery( $label, $date, $this->additional_time ) : $label;
-                $cost  = floatval(str_replace(",", ".", (string) $shipping->ShippingPrice));
+            return [
+                'quantidade' => $item['quantity'],
+                'altura' => $product->height,
+                'largura' => $product->width,
+                'comprimento' => $product->length,
+                'peso' => $product->weight,
+                'valor' => $item['line_total'],
+                'sku' => $product->sku,
+            ];
+        }, $package['contents']);
 
-                array_push(
-                    $rates,
-                    array(
-                        'id'    => 'FRETERAPIDO_' . $shipping->ServiceCode,
-                        'label' => $label,
-                        'cost'  => $cost,
-                    )
-                );
-            }
-            // Add rates.
-            foreach ( $rates as $rate ) {
-                $this->add_rate( $rate );
-            }
-        }
+        // Register the rate
+        $this->add_rate($rate);
 	}
 
     /**
@@ -387,7 +363,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         return $name;
     }
 
-    protected function frenet_calculate_json( $package ){
+    protected function freterapido_calculate_json( $package ){
         $values = array();
         try
         {
@@ -564,7 +540,7 @@ class WC_Freterapido extends WC_Shipping_Method {
 
     }
 
-    protected function frenet_calculate( $package ){
+    protected function freterapido_calculate( $package ){
         $values = array();
 
         $RecipientCEP = $package['destination']['postcode'];

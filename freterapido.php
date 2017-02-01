@@ -11,13 +11,13 @@
  * Domain Path: languages/
  */
 
-define( 'WOO_FR_PATH', plugin_dir_path( __FILE__ ) );
+define('WOO_FR_PATH', plugin_dir_path(__FILE__));
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
+if (!class_exists('WC_Freterapido_Main')) :
 
     /**
      * Frete Rápido main class.
@@ -42,23 +42,22 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
          */
         private function __construct() {
             add_action( 'init', array( $this, 'load_plugin_textdomain' ), -1 );
-
             add_action( 'wp_ajax_ajax_simulator', array( 'WC_Freterapido_Shipping_Simulator', 'ajax_simulator' ) );
             add_action( 'wp_ajax_nopriv_ajax_simulator', array( 'WC_Freterapido_Shipping_Simulator', 'ajax_simulator' ) );
 
             // Checks with WooCommerce is installed.
-            if ( class_exists( 'WC_Integration' ) ) {
+            if (class_exists('WC_Integration')) {
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-shipping-simulator.php';
 
-                add_filter( 'woocommerce_shipping_methods', array( $this, 'wcfreterapido_add_method' ) );
+                add_filter('woocommerce_shipping_methods', array($this, 'wcfreterapido_add_method'));
 
             } else {
-                add_action( 'admin_notices', array( $this, 'wcfreterapido_woocommerce_fallback_notice' ) );
+                add_action('admin_notices', array($this, 'wcfreterapido_woocommerce_fallback_notice'));
             }
 
-            if ( ! class_exists( 'SimpleXmlElement' ) ) {
-                add_action( 'admin_notices', 'wcfreterapido_extensions_missing_notice' );
+            if (!class_exists('SimpleXmlElement')) {
+                add_action('admin_notices', 'wcfreterapido_extensions_missing_notice');
             }
         }
 
@@ -69,7 +68,7 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
          */
         public static function get_instance() {
             // If the single instance hasn't been set, set it now.
-            if ( null === self::$instance ) {
+            if (null === self::$instance) {
                 self::$instance = new self;
             }
 
