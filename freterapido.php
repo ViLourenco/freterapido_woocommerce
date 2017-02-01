@@ -132,6 +132,9 @@ if (!class_exists('WC_Freterapido_Main')) :
 
     //Product Cat creation page
     function text_domain_taxonomy_add_new_meta_field() {
+        /** @var WP_Term[] $fr_categories */
+        $fr_categories = get_terms(['taxonomy' => 'fr_category', 'hide_empty' => false]);
+
         ?>
             <hr>
             <h1>Configurações do Frete Rápido</h1>
@@ -140,70 +143,11 @@ if (!class_exists('WC_Freterapido_Main')) :
                 <label for="fr_category"><?php _e('Categoria no Frete Rápido', 'text_domain'); ?></label>
                 <select name="fr_category" id="fr_category">
                     <option value="0" selected>-- Selecione --</option>
-                    <option value="1">Abrasivos</option>
-                    <option value="2">Adubos / Fertilizantes</option>
-                    <option value="3">Alimentos</option>
-                    <option value="4">Artigos para Pesca</option>
-                    <option value="5">Auto Peças</option>
-                    <option value="6">Bebidas / Destilados</option>
-                    <option value="7">Brindes</option>
-                    <option value="8">Brinquedos</option>
-                    <option value="9">Calçados</option>
-                    <option value="62">Cargas Refrigeradas/Congeladas</option>
-                    <option value="10">CD / DVD / Blu-Ray</option>
-                    <option value="11">Combustíveis / Óleos</option>
-                    <option value="12">Confecção</option>
-                    <option value="13">Cosméticos / Perfumaria</option>
-                    <option value="14">Couro</option>
-                    <option value="15">Derivados Petróleo</option>
-                    <option value="16">Descartáveis</option>
-                    <option value="17">Editorial</option>
-                    <option value="18">Eletrônicos</option>
-                    <option value="19">Eletrodomésticos</option>
-                    <option value="20">Embalagens</option>
-                    <option value="21">Explosivos / Pirotécnicos</option>
-                    <option value="22">Farmacêutico / Medicamentos</option>
-                    <option value="23">Ferragens</option>
-                    <option value="24">Ferramentas</option>
-                    <option value="25">Fibras Ópticas</option>
-                    <option value="26">Fonográfico</option>
-                    <option value="27">Fotográfico</option>
-                    <option value="28">Fraldas / Geriátricas</option>
-                    <option value="29">Higiene / Limpeza</option>
-                    <option value="30">Impressos</option>
-                    <option value="31">Informática / Computadores</option>
-                    <option value="32">Instrumento Musical</option>
-                    <option value="33">Livro(s)</option>
-                    <option value="34">Materiais Escolares</option>
-                    <option value="35">Materiais Esportivos</option>
-                    <option value="36">Materiais Frágeis</option>
-                    <option value="37">Material de Construção</option>
-                    <option value="38">Material de Irrigação</option>
-                    <option value="39">Material Elétrico / Lâmpada(s)</option>
-                    <option value="40">Material Gráfico</option>
-                    <option value="41">Material Hospitalar</option>
-                    <option value="42">Material Odontológico</option>
-                    <option value="43">Material Pet Shop / Rações</option>
-                    <option value="50">Material Plástico</option>
-                    <option value="44">Material Veterinário</option>
-                    <option value="45">Móveis / Utensílios</option>
-                    <option value="46">Moto Peças</option>
-                    <option value="47">Mudas / Plantas</option>
-                    <option value="48">Papelaria / Documentos</option>
-                    <option value="63">Papelão</option>
-                    <option value="49">Perfumaria</option>
-                    <option value="51">Pneus e Borracharia</option>
-                    <option value="52">Produtos Cerâmicos</option>
-                    <option value="53">Produtos Químicos</option>
-                    <option value="54">Produtos Veterinários</option>
-                    <option value="55">Revistas</option>
-                    <option value="56">Sementes</option>
-                    <option value="57">Suprimentos Agrícolas / Rurais</option>
-                    <option value="58">Têxtil</option>
-                    <option value="59">Vacinas</option>
-                    <option value="60">Vestuário</option>
-                    <option value="61">Vidros / Frágil</option>
-                    <option value="999">Outros</option>
+                    <?php
+                    foreach ($fr_categories as $fr_category) {
+                        echo "<option value='{$fr_category->description}'>{$fr_category->name}</option>";
+                    }
+                    ?>
                 </select>
                 <!-- <p class="description"><?php _e('Enter a meta title, <= 60 character', 'text_domain'); ?></p> -->
             </div>
@@ -246,6 +190,9 @@ if (!class_exists('WC_Freterapido_Main')) :
         //getting term ID
         $term_id = $term->term_id;
 
+        /** @var WP_Term[] $fr_categories */
+        $fr_categories = get_terms(['taxonomy' => 'fr_category', 'hide_empty' => false]);
+
         // retrieve the existing value(s) for this meta field. This returns an array
         $term_meta = get_option("taxonomy_" . $term_id);
         ?>
@@ -265,70 +212,11 @@ if (!class_exists('WC_Freterapido_Main')) :
                     <!-- value="<?php echo esc_attr($term_meta['wh_meta_title']) ? esc_attr($term_meta['wh_meta_title']) : ''; ?>" -->
                     <select name="fr_category" id="fr_category">
                         <option value="0" selected>-- Selecione --</option>
-                        <option value="1">Abrasivos</option>
-                        <option value="2">Adubos / Fertilizantes</option>
-                        <option value="3">Alimentos</option>
-                        <option value="4">Artigos para Pesca</option>
-                        <option value="5">Auto Peças</option>
-                        <option value="6">Bebidas / Destilados</option>
-                        <option value="7">Brindes</option>
-                        <option value="8">Brinquedos</option>
-                        <option value="9">Calçados</option>
-                        <option value="62">Cargas Refrigeradas/Congeladas</option>
-                        <option value="10">CD / DVD / Blu-Ray</option>
-                        <option value="11">Combustíveis / Óleos</option>
-                        <option value="12">Confecção</option>
-                        <option value="13">Cosméticos / Perfumaria</option>
-                        <option value="14">Couro</option>
-                        <option value="15">Derivados Petróleo</option>
-                        <option value="16">Descartáveis</option>
-                        <option value="17">Editorial</option>
-                        <option value="18">Eletrônicos</option>
-                        <option value="19">Eletrodomésticos</option>
-                        <option value="20">Embalagens</option>
-                        <option value="21">Explosivos / Pirotécnicos</option>
-                        <option value="22">Farmacêutico / Medicamentos</option>
-                        <option value="23">Ferragens</option>
-                        <option value="24">Ferramentas</option>
-                        <option value="25">Fibras Ópticas</option>
-                        <option value="26">Fonográfico</option>
-                        <option value="27">Fotográfico</option>
-                        <option value="28">Fraldas / Geriátricas</option>
-                        <option value="29">Higiene / Limpeza</option>
-                        <option value="30">Impressos</option>
-                        <option value="31">Informática / Computadores</option>
-                        <option value="32">Instrumento Musical</option>
-                        <option value="33">Livro(s)</option>
-                        <option value="34">Materiais Escolares</option>
-                        <option value="35">Materiais Esportivos</option>
-                        <option value="36">Materiais Frágeis</option>
-                        <option value="37">Material de Construção</option>
-                        <option value="38">Material de Irrigação</option>
-                        <option value="39">Material Elétrico / Lâmpada(s)</option>
-                        <option value="40">Material Gráfico</option>
-                        <option value="41">Material Hospitalar</option>
-                        <option value="42">Material Odontológico</option>
-                        <option value="43">Material Pet Shop / Rações</option>
-                        <option value="50">Material Plástico</option>
-                        <option value="44">Material Veterinário</option>
-                        <option value="45">Móveis / Utensílios</option>
-                        <option value="46">Moto Peças</option>
-                        <option value="47">Mudas / Plantas</option>
-                        <option value="48">Papelaria / Documentos</option>
-                        <option value="63">Papelão</option>
-                        <option value="49">Perfumaria</option>
-                        <option value="51">Pneus e Borracharia</option>
-                        <option value="52">Produtos Cerâmicos</option>
-                        <option value="53">Produtos Químicos</option>
-                        <option value="54">Produtos Veterinários</option>
-                        <option value="55">Revistas</option>
-                        <option value="56">Sementes</option>
-                        <option value="57">Suprimentos Agrícolas / Rurais</option>
-                        <option value="58">Têxtil</option>
-                        <option value="59">Vacinas</option>
-                        <option value="60">Vestuário</option>
-                        <option value="61">Vidros / Frágil</option>
-                        <option value="999">Outros</option>
+                        <?php
+                        foreach ($fr_categories as $fr_category) {
+                            echo "<option value='{$fr_category->description}'>{$fr_category->name}</option>";
+                        }
+                        ?>
                     </select>
                 </td>
             </tr>
