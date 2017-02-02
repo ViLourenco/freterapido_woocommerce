@@ -34,18 +34,15 @@ class WC_Freterapido extends WC_Shipping_Method {
         // Load the settings.
         $this->init_settings();
 
-        // Define user set variables.
-        $this->enabled = $this->get_option('enabled');
-        $this->zip_origin = $this->get_option('zip_origin');
-        $this->cnpj = $this->get_option('cnpj');
-        $this->correios_valordeclarado = $this->get_option('correios_valordeclarado');
-        $this->correios_maopropria = $this->get_option('correios_maopropria');
-        $this->correios_avisorecebimento = $this->get_option('correios_avisorecebimento');
-        $this->results = $this->get_option('results');
-        $this->limit = $this->get_option('limit');
-        $this->additional_time = $this->get_option('additional_time');
-        $this->additional_price = $this->get_option('additional_price');
-        $this->token = $this->get_option('token');
+		// Define user set variables.
+		$this->enabled            = $this->get_option('enabled');
+		$this->cnpj              = $this->get_option('cnpj');
+    $this->results       = $this->get_option('results');
+    $this->limit              = $this->get_option('limit');
+    $this->additional_time    = $this->get_option('additional_time');
+    $this->additional_price              = $this->get_option( 'additional_price' );
+    $this->token              = $this->get_option('token');
+		// $this->debug              = $this->get_option('debug');
 
         // Active logs.
         if ('yes' == $this->debug) {
@@ -107,48 +104,12 @@ class WC_Freterapido extends WC_Shipping_Method {
 				'label'            => __( 'Habilitar plugin', 'woo-shipping-gateway' ),
 				'default'          => 'yes'
 			),
-      'zip_origin' => array(
-          'title'            => __( 'CEP de origem', 'woo-shipping-gateway' ),
-          'type'             => 'text',
-          'description'      => __( 'CEP de origem da sua loja.', 'woo-shipping-gateway' ),
-          'desc_tip'         => true
-      ),
 			'cnpj' => array(
 				'title'            => __( 'CNPJ', 'woo-shipping-gateway' ),
 				'type'             => 'text',
 				'description'      => __( 'CNPJ da sua loja.', 'woo-shipping-gateway' ),
 				'desc_tip'         => true
 			),
-			'correios' => array(
-				'title'            => __( 'Correios', 'woo-shipping-gateway' ),
-				'type'             => 'title',
-				'description'      => __( 'Configure os métodos dos correios' ),
-				'desc_tip'         => true,
-			),
-      'correios_valordeclarado' => array(
-          'title' => __('Correios - Valor declarado', 'woo-shipping-gateway'),
-          'type' => 'checkbox',
-          'label' => __('Ativado', 'woo-shipping-gateway'),
-          // 'description' => __('Display shipping simulator in single product', 'woo-shipping-gateway'),
-          'desc_tip' => true,
-          'default' => 'yes'
-      ),
-      'correios_maopropria' => array(
-          'title' => __('Correios - Mão Própria', 'woo-shipping-gateway'),
-          'type' => 'checkbox',
-          'label' => __('Ativado', 'woo-shipping-gateway'),
-          // 'description' => __('Display shipping simulator in single product', 'woo-shipping-gateway'),
-          'desc_tip' => true,
-          'default' => 'yes'
-      ),
-      'correios_avisorecebimento' => array(
-          'title' => __('Correios - Aviso de Recebimento', 'woo-shipping-gateway'),
-          'type' => 'checkbox',
-          'label' => __('Ativado', 'woo-shipping-gateway'),
-          // 'description' => __('Display shipping simulator in single product', 'woo-shipping-gateway'),
-          'desc_tip' => true,
-          'default' => 'yes'
-      ),
       'results' => array(
           'title' => __('Resultados', 'woo-shipping-gateway'),
           'type' => 'select',
