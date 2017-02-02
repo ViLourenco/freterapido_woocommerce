@@ -77,10 +77,10 @@ class WC_Freterapido extends WC_Shipping_Method {
 	 * @return void
 	 */
 	public function init_form_fields() {
-		$this->instance_form_fields = array(
-			'Informações' => array(
-				'title' => __(
-					'<div style="background: #ffffff; border: none; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1)">
+        $this->instance_form_fields = array(
+            'Informações' => array(
+                'title' => __(
+                    '<div style="background: #ffffff; border: none; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1)">
             <div style="padding:15px;text-align: center; vertical-align:bottom;">
             	<a href="http://www.freterapido.com" target="_blank">
             		<img src="https://freterapido.com/imgs/frete_rapido.png" style="margin: auto" />
@@ -96,81 +96,81 @@ class WC_Freterapido extends WC_Shipping_Method {
           	</div>
             <div class="clear"></div>
           </div>', 'woo-shipping-gateway'),
-				'type' => 'title'
-			),
-			'enabled' => array(
-				'title'            => __( 'Enable/Disable', 'woo-shipping-gateway' ),
-				'type'             => 'checkbox',
-				'label'            => __( 'Habilitar plugin', 'woo-shipping-gateway' ),
-				'default'          => 'yes'
-			),
-			'cnpj' => array(
-				'title'            => __( 'CNPJ', 'woo-shipping-gateway' ),
-				'type'             => 'text',
-				'description'      => __( 'CNPJ da sua loja.', 'woo-shipping-gateway' ),
-				'desc_tip'         => true
-			),
-      'results' => array(
-          'title' => __('Resultados', 'woo-shipping-gateway'),
-          'type' => 'select',
-					'options' => array('0' => 'Sem filtro (todas as ofertas)', '1' => 'Somente oferta com menor preço', '2' => 'Retornar somente a oferta com menor prazo de entrega'),
-          'label' => __('Ativado', 'woo-shipping-gateway'),
-          'description' => __('Como você gostaria de receber os resultados?', 'woo-shipping-gateway'),
-          'desc_tip' => true,
-          'default' => 'yes'
-      ),
-      'limit' => array(
-          'title' => __('Limite', 'woo-shipping-gateway'),
-          'type' => 'select',
-					'options' => array(
-						'1' => '1',
-						'2' => '2',
-						'3' => '3',
-						'4' => '4',
-						'5' => '5',
-						'6' => '6',
-						'7' => '7',
-						'8' => '8',
-						'9' => '9',
-						'10' => '10',
-						'11' => '11',
-						'12' => '12',
-						'13' => '13',
-						'14' => '14',
-						'15' => '15',
-						'16' => '16',
-						'17' => '17',
-						'18' => '18',
-						'19' => '19',
-						'19' => '19',
-						'20' => '20',
-					),
-          'description' => __('Escolha um limite de resultados', 'woo-shipping-gateway'),
-          'desc_tip' => true,
-          'default' => 'yes'
-      ),
-      'additional_time' => array(
-          'title'            => __( 'Prazo adicional de envio/postagem (dias)', 'woo-shipping-gateway' ),
-          'type'             => 'text',
-          'description'      => __( 'Será acrecido no prazo do frete.', 'woo-shipping-gateway' ),
-          'desc_tip'         => true,
-          'default'          => '0',
-          'placeholder'      => '0'
-      ),
-			'additional_price' => array(
-				'title'            => __( 'Custo adicional de envio/postagem (R$)', 'woo-shipping-gateway' ),
-				'type'             => 'text',
-				'description'      => __( 'Será acrecido no valor do frete.', 'woo-shipping-gateway' ),
-				'desc_tip'         => true,
-				'default'          => '2'
-			),
-			'token' => array(
-				'title'            => __( 'Token', 'woo-shipping-gateway' ),
-				'type'             => 'text',
-				'description'      => __( 'Token de integração com o Frete Rápido.', 'woo-shipping-gateway' ),
-				'desc_tip'         => true
-			)
-		);
+                'type' => 'title'
+            ),
+            'enabled' => array(
+                'title' => __('Enable/Disable', 'woo-shipping-gateway'),
+                'type' => 'checkbox',
+                'label' => __('Habilitar plugin', 'woo-shipping-gateway'),
+                'default' => 'yes'
+            ),
+            'cnpj' => array(
+                'title' => __('CNPJ', 'woo-shipping-gateway'),
+                'type' => 'text',
+                'description' => __('CNPJ da sua loja.', 'woo-shipping-gateway'),
+                'desc_tip' => true
+            ),
+            'results' => array(
+                'title' => __('Resultados', 'woo-shipping-gateway'),
+                'type' => 'select',
+                'options' => array('0' => 'Sem filtro (todas as ofertas)', '1' => 'Somente oferta com menor preço', '2' => 'Retornar somente a oferta com menor prazo de entrega'),
+                'label' => __('Ativado', 'woo-shipping-gateway'),
+                'description' => __('Como você gostaria de receber os resultados?', 'woo-shipping-gateway'),
+                'desc_tip' => true,
+                'default' => 'yes'
+            ),
+            'limit' => array(
+                'title' => __('Limite', 'woo-shipping-gateway'),
+                'type' => 'select',
+                'options' => array(
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                    '5' => '5',
+                    '6' => '6',
+                    '7' => '7',
+                    '8' => '8',
+                    '9' => '9',
+                    '10' => '10',
+                    '11' => '11',
+                    '12' => '12',
+                    '13' => '13',
+                    '14' => '14',
+                    '15' => '15',
+                    '16' => '16',
+                    '17' => '17',
+                    '18' => '18',
+                    '19' => '19',
+                    '19' => '19',
+                    '20' => '20',
+                ),
+                'description' => __('Escolha um limite de resultados', 'woo-shipping-gateway'),
+                'desc_tip' => true,
+                'default' => 'yes'
+            ),
+            'additional_time' => array(
+                'title' => __('Prazo adicional de envio/postagem (dias)', 'woo-shipping-gateway'),
+                'type' => 'text',
+                'description' => __('Será acrecido no prazo do frete.', 'woo-shipping-gateway'),
+                'desc_tip' => true,
+                'default' => '0',
+                'placeholder' => '0'
+            ),
+            'additional_price' => array(
+                'title' => __('Custo adicional de envio/postagem (R$)', 'woo-shipping-gateway'),
+                'type' => 'text',
+                'description' => __('Será acrecido no valor do frete.', 'woo-shipping-gateway'),
+                'desc_tip' => true,
+                'default' => '2'
+            ),
+            'token' => array(
+                'title' => __('Token', 'woo-shipping-gateway'),
+                'type' => 'text',
+                'description' => __('Token de integração com o Frete Rápido.', 'woo-shipping-gateway'),
+                'desc_tip' => true
+            )
+        );
 
         $this->form_fields = $this->instance_form_fields;
 	}
