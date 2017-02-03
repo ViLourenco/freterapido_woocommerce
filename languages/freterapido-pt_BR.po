@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2017-02-03 16:28-0200\n"
-"PO-Revision-Date: 2017-02-03 16:45-0200\n"
+"PO-Revision-Date: 2017-02-03 17:54-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,3 +17,42 @@ msgid "Delivery in %d working day"
 msgid_plural "Delivery in %d working days"
 msgstr[0] "Entrega em %d dia útil"
 msgstr[1] "Entrega em %d dias úteis"
+
+msgid "Enable/Disable"
+msgstr "Habilitar/Desabilitar"
+
+msgid "Enable"
+msgstr "Habilitar"
+
+msgid "Results"
+msgstr "Resultados"
+
+msgid "Activated"
+msgstr "Ativado"
+
+msgid "How would you like to receive the results?"
+msgstr "Como você gostaria de receber os resultados?"
+
+msgid "CNPJ from your store"
+msgstr "CNPJ da sua loja"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Choose a result limit"
+msgstr "Escolha um limite de resultados"
+
+msgid "Additional Delivery period / post (days)"
+msgstr "Prazo adicional de envio/postagem (dias)"
+
+msgid "Will be added within the freight deadline"
+msgstr "Será acrecido no prazo do frete"
+
+msgid "Additional cost of sending / posting (R$)"
+msgstr "Custo adicional de envio/postagem (R$)"
+
+msgid "Will be added in the freight value"
+msgstr "Será acrecido no valor do frete"
+
+msgid "Integration Token with Frete Rápido"
+msgstr "Token de integração com o Frete Rápido"
