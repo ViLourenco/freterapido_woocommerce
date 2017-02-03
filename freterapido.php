@@ -308,4 +308,24 @@ if (!class_exists('WC_Freterapido_Main')) :
     add_action('edited_product_cat', 'save_taxonomy_custom_meta', 10, 2);
     add_action('create_product_cat', 'save_taxonomy_custom_meta', 10, 2);
 
+    // Display Fields using WooCommerce Action Hook
+    add_action( 'woocommerce_product_options_shipping', 'woocommerce_general_product_data_custom_field' );
+
+    function woocommerce_general_product_data_custom_field() {
+        woocommerce_wp_text_input(
+            array(
+                'id' => 'manufacturing_deadline',
+                'label' => __('Prazo de fabricação', 'woocommerce' ),
+                'description' => __( 'Será somado ao prazo de entrega', 'woocommerce' ),
+                'desc_tip' => true
+            )
+        );
+    }
+
+    // Save Fields using WooCommerce Action Hook
+    add_action( 'woocommerce_process_product_meta', 'woocommerce_process_product_meta_fields_save' );
+    function woocommerce_process_product_meta_fields_save( $post_id ){
+        update_post_meta( $post_id, 'manufacturing_deadline', $_POST['manufacturing_deadline'] );
+    }
+
 endif;

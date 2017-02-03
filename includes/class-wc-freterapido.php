@@ -1,23 +1,162 @@
 <?php
+
+class Shipping {
+    const API_URL = 'http://api-externa.freterapido.app/embarcador/v1/quote-simulator';
+
+    private $config;
+    private $sender;
+    private $receiver;
+    private $dispatcher;
+    private $volumes;
+
+    public function __construct(array $config) {
+        $this->config = array_merge([
+            'tipo_cobranca' => 1,
+            'tipo_frete' => 1,
+            'ecommerce' => true,
+        ], $config);
+    }
+
+    public function add_sender(array $sender) {
+        $this->sender = $sender;
+
+        return $this;
+    }
+
+    public function add_receiver(array $receiver) {
+        $this->receiver = $receiver;
+
+        return $this;
+    }
+
+    public function add_dispatcher(array $dispatcher) {
+        $this->dispatcher = $dispatcher;
+
+        return $this;
+    }
+
+    public function add_volumes(array $volumes) {
+        $this->volumes = $volumes;
+
+        return $this;
+    }
+
+    /**
+     * @param int $filter
+     * @return $this
+     */
+    public function set_filter($filter) {
+        if ($filter) {
+            $this->config['filtro'] = $filter;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @return $this
+     */
+    public function set_limit($limit) {
+        if ($limit) {
+            $this->config['limit'] = $limit;
+        }
+
+        return $this;
+    }
+
+    private function format_request() {
+        return array_merge(
+            array(
+                'remetente' => $this->sender,
+                'destinatario' => $this->receiver,
+                'volumes' => $this->volumes,
+
+                'tipo_cobranca' => 1,
+                'tipo_frete' => 1,
+                'ecommerce' => true,
+            ),
+            $this->config
+        );
+    }
+
+    public function get_quote() {
+        $response = $this->do_request(self::API_URL, $this->format_request());
+
+        if ((int)$response['info']['http_code'] === 401) {
+            throw new InvalidArgumentException();
+        }
+
+        $result = $response['result'];
+
+        if (!$result || !isset($result['transportadoras']) || count($result['transportadoras']) === 0) {
+            throw new UnexpectedValueException();
+        }
+
+        return $result;
+    }
+
+    private function do_request($url, $params = array()) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $data_string = json_encode($params);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string)
+        ));
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+
+        curl_close($ch);
+
+        return ['info' => $info, 'result' => json_decode($result, true)];
+    }
+}
+
 /**
  * WC_Freterapido class.
  */
 class WC_Freterapido extends WC_Shipping_Method {
 
     /**
+     * Dimensões padrão em KG
+     *
+     * @var array
+     */
+    private $default_dimensions = [
+        'height' => 0.5,
+        'width' => 0.5,
+        'length' => 0.5,
+        'weight' => 1
+    ];
+
+    /**
+     * Será usada pelo produto que não tenha uma categoria do FR definida para ele
+     *
+     * @var int
+     */
+    private $default_fr_category = 999;
+
+    /**
      * Initialize the Frete Rápido shipping method.
      *
      * @param int $instance_id
      */
-	public function __construct($instance_id = 0 ) {
-        $this->id           = 'freterapido';
-        $this->instance_id 	= absint( $instance_id );
-		$this->method_title = __( 'Frete Rápido', 'woo-shipping-gateway' );
+    public function __construct($instance_id = 0) {
+        $this->id = 'freterapido';
+        $this->instance_id = absint($instance_id);
+        $this->method_title = __('Frete Rápido', 'woo-shipping-gateway');
 
-        $this->title = __( 'Frete Rápido', 'woo-shipping-gateway' ); // This can be added as an setting but for this example its forced.
+        $this->title = __('Frete Rápido', 'woo-shipping-gateway'); // This can be added as an setting but for this example its forced.
 
-		$this->init();
-	}
+        $this->init();
+    }
 
 	/**
 	 * Initializes the method.
@@ -25,9 +164,6 @@ class WC_Freterapido extends WC_Shipping_Method {
 	 * @return void
 	 */
 	public function init() {
-        // Frete Rápido Web Service.
-        $this->webservice = 'http://services.frenet.com.br/logistics/ShippingQuoteWS.asmx?wsdl';
-
         // Load the form fields.
         $this->init_form_fields();
 
@@ -35,40 +171,23 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->init_settings();
 
 		// Define user set variables.
-		$this->enabled            = $this->get_option('enabled');
-		$this->cnpj              = $this->get_option('cnpj');
-    $this->results       = $this->get_option('results');
-    $this->limit              = $this->get_option('limit');
-    $this->additional_time    = $this->get_option('additional_time');
-    $this->additional_price              = $this->get_option( 'additional_price' );
-    $this->token              = $this->get_option('token');
-		// $this->debug              = $this->get_option('debug');
+        $this->enabled = $this->get_option('enabled');
+        $this->cnpj = $this->get_option('cnpj');
+        $this->results = $this->get_option('results');
+        $this->limit = $this->get_option('limit');
+        $this->additional_time = $this->get_option('additional_time');
+        $this->additional_price = $this->get_option('additional_price');
+        $this->token = $this->get_option('token');
 
         // Active logs.
         if ('yes' == $this->debug) {
             if (class_exists('WC_Logger')) {
                 $this->log = new WC_Logger();
-            } else {
-                $this->log = $this->woocommerce_method()->logger();
             }
         }
 
         // Actions.
         add_action('woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
-	}
-
-	/**
-	 * Backwards compatibility with version prior to 2.1.
-	 *
-	 * @return object Returns the main instance of WooCommerce class.
-	 */
-	protected function woocommerce_method() {
-		if ( function_exists( 'WC' ) ) {
-			return WC();
-		} else {
-			global $woocommerce;
-			return $woocommerce;
-		}
 	}
 
 	/**
@@ -81,21 +200,25 @@ class WC_Freterapido extends WC_Shipping_Method {
             'Informações' => array(
                 'title' => __(
                     '<div style="background: #ffffff; border: none; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1)">
-            <div style="padding:15px;text-align: center; vertical-align:bottom;">
-            	<a href="http://www.freterapido.com" target="_blank">
-            		<img src="https://freterapido.com/imgs/frete_rapido.png" style="margin: auto" />
-            	</a>
-            	<div style="padding-top: 20px;">
-                Configure abaixo a sua conta com os dados da loja para obter as cotações de frete através do Frete Rápido.
-                </br>
-                O token e as configurações dos Correios estão disponíveis no seu <a href="https://freterapido.com/painel/" target="_blank">Painel administrativo</a>.
-                </br>
-                Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a <a href="https://github.com/freterapido/freterapido_woocommerce" target="_blank">documentação deste módulo no Github</a>.
-                </br>
-            	</div>
-          	</div>
-            <div class="clear"></div>
-          </div>', 'woo-shipping-gateway'),
+                        <div style="padding:15px;text-align: center; vertical-align:bottom;">
+                            <a href="http://www.freterapido.com" target="_blank">
+                                <img src="https://freterapido.com/imgs/frete_rapido.png" style="margin: auto"/>
+                            </a>
+                            <div style="padding-top: 20px;">
+                                Configure abaixo a sua conta com os dados da loja para obter as cotações de frete através do Frete Rápido.
+                                </br>
+                                O token e as configurações dos Correios estão disponíveis no seu 
+                                <a href="https://freterapido.com/painel/" target="_blank">Painel administrativo</a>.
+                                </br>
+                                Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a 
+                                <a href="https://github.com/freterapido/freterapido_woocommerce" target="_blank">documentação deste módulo no Github</a>.
+                                </br>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>',
+                    'woo-shipping-gateway'
+                ),
                 'type' => 'title'
             ),
             'enabled' => array(
@@ -117,7 +240,7 @@ class WC_Freterapido extends WC_Shipping_Method {
                 'label' => __('Ativado', 'woo-shipping-gateway'),
                 'description' => __('Como você gostaria de receber os resultados?', 'woo-shipping-gateway'),
                 'desc_tip' => true,
-                'default' => 'yes'
+                'default' => 0
             ),
             'limit' => array(
                 'title' => __('Limite', 'woo-shipping-gateway'),
@@ -188,512 +311,203 @@ class WC_Freterapido extends WC_Shipping_Method {
 		echo '</table>';
 	}
 
-	/**
-	 * Checks if the method is available.
-	 *
-	 * @param array $package Order package.
-	 *
-	 * @return bool
-	 */
-	public function is_available( $package ) {
-		$is_available = true;
+    /**
+     * Checks if the method is available.
+     *
+     * @param array $package Order package.
+     *
+     * @return bool
+     */
+    public function is_available($package) {
+        $is_available = true;
 
-		if ( 'no' == $this->enabled ) {
-			$is_available = false;
-		}
+        if ('no' == $this->enabled) {
+            $is_available = false;
+        }
 
-		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package );
-	}
+        return apply_filters('woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package);
+    }
 
-	/**
-	 * Replace comma by dot.
-	 *
-	 * @param  mixed $value Value to fix.
-	 *
-	 * @return mixed
-	 */
-	private function fix_format( $value ) {
-		$value = str_replace( ',', '.', $value );
+    /**
+     * Fix Zip Code format.
+     *
+     * @param mixed $zip Zip Code.
+     *
+     * @return int
+     */
+    protected function fix_zip_code($zip) {
+        $fixed = preg_replace('([^0-9])', '', $zip);
 
-		return $value;
-	}
+        return $fixed;
+    }
 
-	/**
-	 * Fix number format for SimpleXML.
-	 *
-	 * @param  float $value  Value with dot.
-	 *
-	 * @return string        Value with comma.
-	 */
-	private function fix_simplexml_format( $value ) {
-		$value = str_replace( '.', ',', $value );
-
-		return $value;
-	}
-
-	/**
-	 * Fix Zip Code format.
-	 *
-	 * @param mixed $zip Zip Code.
-	 *
-	 * @return int
-	 */
-	protected function fix_zip_code( $zip ) {
-		$fixed = preg_replace( '([^0-9])', '', $zip );
-
-		return $fixed;
-	}
-
-	/**
-	 * Get fee.
-	 *
-	 * @param  mixed $fee
-	 * @param  mixed $total
-	 *
-	 * @return float
-	 */
-	public function get_fee( $fee, $total ) {
-		if ( strstr( $fee, '%' ) ) {
-			$fee = ( $total / 100 ) * str_replace( '%', '', $fee );
-		}
-
-		return $fee;
-	}
-
-	/**
-	 * Calculates the shipping rate.
-	 *
-	 * @param array $package Order package.
-	 *
-	 * @return void
-	 */
-	public function calculate_shipping( $package = array() ) {
-        $rate = array(
-            'id' => $this->id,
-            'label' => $this->title,
-            'cost' => '10.99',
-            'calc_tax' => 'per_item'
-        );
-
-        $fr_categories = get_terms(['taxonomy' => 'fr_category', 'hide_empty' => false]);
+    /**
+     * Calculates the shipping rate.
+     *
+     * @param array $package Order package.
+     *
+     * @return void
+     */
+    public function calculate_shipping($package = array()) {
+        if (empty($this->token)) {
+            return;
+        }
 
         $products = array_map(function ($item) {
             $product = wc_get_product($item['product_id']);
-
+            $manufacturing_deadline = get_post_meta($product->id, 'manufacturing_deadline', true);
             /** @var WC_Product_Simple $product */
             $product = $item['data'];
+            /** @var WP_Term[] $product_categories */
+            $product_categories = get_the_terms($product->id, 'product_cat');
 
-            $categories = get_term($product->id, 'product_cat');
+            $find_fr_category = function (WP_Term $category) {
+                return $this->find_category($category->term_id);
+            };
 
-            return [
+            $not_null = function ($category) {
+                return $category !== null;
+            };
+
+            $fr_categories = array_filter(array_map($find_fr_category, $product_categories), $not_null);
+            $fr_category = ['code' => $this->default_fr_category];
+            $dispatcher = [];
+
+            // Determina a categoria do Frete Rápido para o volume
+            while (count($fr_categories) > 0) {
+                $dispatcher = [];
+                $product_category = array_shift($fr_categories);
+                $product_category_fr_data = get_option("taxonomy_" . $product_category->term_id);
+                $has_dispatcher = $product_category_fr_data['fr_origin_cep'] && $product_category_fr_data['fr_origin_rua'] && $product_category_fr_data['fr_origin_numero'] && $product_category_fr_data['fr_origin_bairro'];
+
+                if ($product_category_fr_data && ($has_dispatcher)) {
+                    $dispatcher = array(
+                        'cep' => $product_category_fr_data['fr_origin_cep'],
+                        'rua' => $product_category_fr_data['fr_origin_rua'],
+                        'numero' => $product_category_fr_data['fr_origin_numero'],
+                        'complemento' => $product_category_fr_data['fr_origin_complemento'],
+                        'bairro' => $product_category_fr_data['fr_origin_bairro'],
+                    );
+                }
+
+                $fr_category = ['code' => $product_category_fr_data['fr_category']];
+
+                if ($product_category_fr_data['fr_category'] && $has_dispatcher) {
+                    $fr_categories = [];
+                }
+            }
+
+            $height = wc_get_dimension($product->height, 'm');
+            $width = wc_get_dimension($product->width, 'm');
+            $length = wc_get_dimension($product->length, 'm');
+            $weight = wc_get_weight($product->weight, 'kg');
+
+            return array(
                 'quantidade' => $item['quantity'],
-                'altura' => $product->height,
-                'largura' => $product->width,
-                'comprimento' => $product->length,
-                'peso' => $product->weight,
+                'altura' => $height ?: $this->default_dimensions['height'],
+                'largura' => $width ?: $this->default_dimensions['width'],
+                'comprimento' => $length ?: $this->default_dimensions['length'],
+                'peso' => $weight ?: ($this->default_dimensions['weight'] * $item['quantity']),
                 'valor' => $item['line_total'],
                 'sku' => $product->sku,
-            ];
+                'tipo' => $fr_category['code'],
+                'origem' => $dispatcher,
+                'prazo_fabricacao' => $manufacturing_deadline
+            );
         }, $package['contents']);
 
-        // Register the rate
-        $this->add_rate($rate);
-	}
+        $chunks = array();
 
-    /**
-     * Estimating Delivery.
-     *
-     * @param string $label
-     * @param string $date
-     * @param int    $additional_time
-     *
-     * @return string
-     */
-    protected function estimating_delivery( $label, $date, $additional_time = 0 ) {
-        $name = $label;
-        $additional_time = intval( $additional_time );
+        // Agrupa os volumes por origem
+        while (count($products) > 0) {
+            $product = array_shift($products);
+            $new_chunk = array($product);
 
-        if ( $additional_time > 0 ) {
-            $date += intval( $additional_time );
+            $same_origin = array_filter($products, function ($_product) use ($product) {
+                return $_product['origem'] == $product['origem'];
+            });
+
+            $products = array_diff_assoc($products, $same_origin);
+            $new_chunk = array_merge($new_chunk, $same_origin);
+            $chunks[] = $new_chunk;
         }
 
-        if ( $date > 0 ) {
-            $name .= ' (' . sprintf( _n( 'Delivery in %d working day', 'Delivery in %d working days', $date, 'woo-shipping-gateway' ),  $date ) . ')';
-        }
+        $quotes = [];
 
-        return $name;
-    }
+        // Realiza uma cotação para cada origem diferente
+        foreach ($chunks as $chunk) {
+            $dispatcher = $chunk[0]['origem'];
+            $shipping = new Shipping([
+                'token' => $this->token,
+                'codigo_plataforma' => 'woocomm26'
+            ]);
 
-    protected function freterapido_calculate_json( $package ){
-        $values = array();
-        try
-        {
+            $volumes = array_map(function ($volume) {
+                unset($volume['origem']);
+                return $volume;
+            }, array_values($chunk));
 
-            $RecipientCEP = $package['destination']['postcode'];
-            $RecipientCountry = $package['destination']['country'];
-
-            // Checks if services and zipcode is empty.
-            if (empty( $RecipientCEP ) && $RecipientCountry=='BR')
-            {
-                if ( 'yes' == $this->debug ) {
-                    $this->log->add( $this->id,"ERRO: CEP destino não informado");
-                }
-                return $values;
-            }
-            if(empty( $this->zip_origin ))
-            {
-                if ( 'yes' == $this->debug ) {
-                    $this->log->add( $this->id,"ERRO: CEP origem não configurado");
-                }
-                return $values;
-            }
-
-            // product array
-            $shippingItemArray = array();
-            $count = 0;
-
-            // Shipping per item.
-            foreach ( $package['contents'] as $item_id => $values ) {
-                $product = $values['data'];
-                $qty = $values['quantity'];
-
-                if ( 'yes' == $this->debug ) {
-                    $this->log->add( $this->id, 'Product: ' . print_r($product, true));
-                }
-
-                $shippingItem = new stdClass();
-
-                if ( $qty > 0 && $product->needs_shipping() ) {
-
-                    if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
-                        $_height = wc_get_dimension( $this->fix_format( $product->height ), 'cm' );
-                        $_width  = wc_get_dimension( $this->fix_format( $product->width ), 'cm' );
-                        $_length = wc_get_dimension( $this->fix_format( $product->length ), 'cm' );
-                        $_weight = wc_get_weight( $this->fix_format( $product->weight ), 'kg' );
-                    } else {
-                        $_height = woocommerce_get_dimension( $this->fix_format( $product->height ), 'cm' );
-                        $_width  = woocommerce_get_dimension( $this->fix_format( $product->width ), 'cm' );
-                        $_length = woocommerce_get_dimension( $this->fix_format( $product->length ), 'cm' );
-                        $_weight = woocommerce_get_weight( $this->fix_format( $product->weight ), 'kg' );
-                    }
-
-                    if(empty($_height))
-                        $_height= $this->minimum_height;
-
-                    if(empty($_width))
-                        $_width= $this->minimum_width;
-
-                    if(empty($_length))
-                        $_length = $this->minimum_length;
-
-                    if(empty($_weight))
-                        $_weight = 1;
-
-
-                    $shippingItem->Weight = $_weight * $qty;
-                    $shippingItem->Length = $_length;
-                    $shippingItem->Height = $_height;
-                    $shippingItem->Width = $_width;
-                    $shippingItem->Diameter = 0;
-                    $shippingItem->SKU = $product->get_sku();
-
-                    // wp_get_post_terms( your_id, 'product_cat' );
-                    $shippingItem->Category = '';
-                    $shippingItem->isFragile=false;
-
-                    if ( 'yes' == $this->debug ) {
-                        $this->log->add( $this->id, 'shippingItem: ' . print_r($shippingItem, true));
-                    }
-
-                    $shippingItemArray[$count] = $shippingItem;
-
-                    $count++;
-                }
-            }
-
-            if ( 'yes' == $this->debug ) {
-
-                $this->log->add( $this->id, 'CEP ' . $package['destination']['postcode'] );
-            }
-
-            $service_param = array (
-                    'Token' => $this->token,
-                    'SellerCEP' => $this->zip_origin,
-                    'RecipientCEP' => $RecipientCEP,
-                    'RecipientDocument' => '',
-                    'ShipmentInvoiceValue' => WC()->cart->cart_contents_total,
-                    'ShippingItemArray' => $shippingItemArray,
-                    'RecipientCountry' => $RecipientCountry
-            );
-
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id, 'Requesting the Frete Rápido WebServices...');
-                $this->log->add( $this->id, print_r($service_param, true));
-            }
-
-            // Gets the WebServices response.
-
-            $service_url = 'http://api.frenet.com.br/v1/Shipping/GetShippingQuote?data=' . json_encode($service_param);
-
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id, 'URL: ' . $service_url );
-            }
-
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $service_url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $curl_response = curl_exec($curl);
-            curl_close($curl);
-
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id, 'Curl response: ' . $curl_response );
-            }
-
-
-            if ( is_wp_error( $curl_response ) ) {
-                if ( 'yes' == $this->debug ) {
-                    $this->log->add( $this->id, 'WP_Error: ' . $curl_response->get_error_message() );
-                }
-            } else
-            {
-                $response = json_decode($curl_response);
-
-                if ( isset( $response->ShippingSevicesArray ) ) {
-
-                    $servicosArray = (array)$response->ShippingSevicesArray;
-
-                    if(!empty($servicosArray))
-                    {
-                        foreach($servicosArray as $servicos){
-
-                            if ( 'yes' == $this->debug ) {
-                                $this->log->add( $this->id, 'Percorrendo os serviços retornados');
-                            }
-
-                            if (!isset($servicos->ServiceCode) || $servicos->ServiceCode . '' == '' || !isset($servicos->ShippingPrice)) {
-                                if ( 'yes' == $this->debug ) {
-                                    $this->log->add( $this->id, '*continue*');
-                                }
-                                continue;
-                            }
-
-                            $code = (string) $servicos->ServiceCode;
-
-                            if ( 'yes' == $this->debug ) {
-                                $this->log->add( $this->id, 'WebServices response [' . $servicos->ServiceDescription . ']: ' . print_r( $servicos, true ) );
-                            }
-
-                            $values[ $code ] = $servicos;
-                        }
-                    }
-
-                }
-            }
-        }
-        catch (Exception $e)
-        {
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id, var_dump($e->getMessage()));
+            try {
+                $quotes[] = $shipping
+                    ->add_receiver([
+                        'tipo_pessoa' => 1,
+                        'endereco' => [
+                            'cep' => $this->fix_zip_code($package['destination']['postcode'])
+                        ]
+                    ])
+                    ->add_sender(['cnpj' => $this->cnpj])
+                    ->add_volumes($volumes)
+                    ->set_filter($this->results)
+                    ->set_limit($this->limit)
+                    ->add_dispatcher($dispatcher)
+                    ->get_quote();
+            } catch (Exception $invalid_argument) {
+                return;
             }
         }
 
-        return $values;
-
-    }
-
-    protected function freterapido_calculate( $package ){
-        $values = array();
-
-        $RecipientCEP = $package['destination']['postcode'];
-        $RecipientCountry = $package['destination']['country'];
-
-        // Checks if services and zipcode is empty.
-        if (empty( $RecipientCEP ) && $RecipientCountry=='BR')
-        {
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id,"ERRO: CEP destino não informado");
-            }
-            return $values;
-        }
-        if(empty( $this->zip_origin ))
-        {
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id,"ERRO: CEP origem não configurado");
-            }
-            return $values;
-        }
-
-        // product array
-        $shippingItemArray = array();
-        $count = 0;
-
-        // Shipping per item.
-        foreach ( $package['contents'] as $item_id => $values ) {
-            $product = $values['data'];
-            $qty = $values['quantity'];
-
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id, 'Product: ' . print_r($product, true));
+        $merged_quote = array_reduce($quotes, function ($carry, $item) {
+            $offer = array_shift($item['transportadoras']);
+            if (!$carry) {
+                return $offer;
             }
 
-            $shippingItem = new stdClass();
-
-            if ( $qty > 0 && $product->needs_shipping() ) {
-
-                if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
-                    $_height = wc_get_dimension( $this->fix_format( $product->height ), 'cm' );
-                    $_width  = wc_get_dimension( $this->fix_format( $product->width ), 'cm' );
-                    $_length = wc_get_dimension( $this->fix_format( $product->length ), 'cm' );
-                    $_weight = wc_get_weight( $this->fix_format( $product->weight ), 'kg' );
-                } else {
-                    $_height = woocommerce_get_dimension( $this->fix_format( $product->height ), 'cm' );
-                    $_width  = woocommerce_get_dimension( $this->fix_format( $product->width ), 'cm' );
-                    $_length = woocommerce_get_dimension( $this->fix_format( $product->length ), 'cm' );
-                    $_weight = woocommerce_get_weight( $this->fix_format( $product->weight ), 'kg' );
-                }
-
-                if(empty($_height))
-                    $_height= $this->minimum_height;
-
-                if(empty($_width))
-                    $_width= $this->minimum_width;
-
-                if(empty($_length))
-                    $_length = $this->minimum_length;
-
-                if(empty($_weight))
-                    $_weight = 1;
-
-
-                $shippingItem->Weight = $_weight * $qty;
-                $shippingItem->Length = $_length;
-                $shippingItem->Height = $_height;
-                $shippingItem->Width = $_width;
-                $shippingItem->Diameter = 0;
-                $shippingItem->SKU = $product->get_sku();
-
-                // wp_get_post_terms( your_id, 'product_cat' );
-                $shippingItem->Category = '';
-                $shippingItem->isFragile=false;
-
-                if ( 'yes' == $this->debug ) {
-                    $this->log->add( $this->id, 'shippingItem: ' . print_r($shippingItem, true));
-                }
-
-                $shippingItemArray[$count] = $shippingItem;
-
-                $count++;
+            if ($offer['prazo_entrega'] > $carry['prazo_entrega']) {
+                $carry['prazo_entrega'] = $offer['prazo_entrega'];
             }
-        }
 
-        if ( 'yes' == $this->debug ) {
+            $carry['preco_frete'] += $offer['preco_frete'];
+            $carry['custo_frete'] += $offer['custo_frete'];
 
-            $this->log->add( $this->id, 'CEP ' . $package['destination']['postcode'] );
-        }
+            return $carry;
+        });
 
-        $service_param = array (
-            'quoteRequest' => array(
-                'Username' => $this->login,
-                'Password' => $this->password,
-                'SellerCEP' => $this->zip_origin,
-                'RecipientCEP' => $RecipientCEP,
-                'RecipientDocument' => '',
-                'ShipmentInvoiceValue' => WC()->cart->cart_contents_total,
-                'ShippingItemArray' => $shippingItemArray,
-                'RecipientCountry' => $RecipientCountry
-            )
+        $deadline = $merged_quote['prazo_entrega'];
+        $deadline_text = '(' . sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline) . ')';
+
+        $rate = array(
+            'id' => $this->id,
+            'label' => "{$this->title} {$deadline_text}",
+            'cost' => $merged_quote['preco_frete'],
         );
 
-        if ( 'yes' == $this->debug ) {
-            $this->log->add( $this->id, 'Requesting the Frete Rápido WebServices...');
-            $this->log->add( $this->id, print_r($service_param, true));
-        }
-
-        // Gets the WebServices response.
-        $client = new SoapClient($this->webservice, array("soap_version" => SOAP_1_1,"trace" => 1));
-        $response = $client->__soapCall("GetShippingQuote", array($service_param));
-
-        if ( 'yes' == $this->debug ) {
-            $this->log->add( $this->id, $client->__getLastRequest());
-            $this->log->add( $this->id, $client->__getLastResponse());
-        }
-
-        if ( is_wp_error( $response ) ) {
-            if ( 'yes' == $this->debug ) {
-                $this->log->add( $this->id, 'WP_Error: ' . $response->get_error_message() );
-            }
-        } else
-        {
-            if ( isset( $response->GetShippingQuoteResult ) ) {
-                if(count($response->GetShippingQuoteResult->ShippingSevicesArray->ShippingSevices)==1)
-                    $servicosArray[0] = $response->GetShippingQuoteResult->ShippingSevicesArray->ShippingSevices;
-                else
-                    $servicosArray = $response->GetShippingQuoteResult->ShippingSevicesArray->ShippingSevices;
-
-                if(!empty($servicosArray))
-                {
-                    foreach($servicosArray as $servicos){
-
-                        if ( 'yes' == $this->debug ) {
-                            $this->log->add( $this->id, 'Percorrendo os serviços retornados');
-                        }
-
-                        if (!isset($servicos->ServiceCode) || $servicos->ServiceCode . '' == '' || !isset($servicos->ShippingPrice)) {
-                            continue;
-                        }
-
-                        $code = (string) $servicos->ServiceCode;
-
-                        if ( 'yes' == $this->debug ) {
-                            $this->log->add( $this->id, 'WebServices response [' . $servicos->ServiceDescription . ']: ' . print_r( $servicos, true ) );
-                        }
-
-                        $values[ $code ] = $servicos;
-                    }
-                }
-
-            }
-        }
-
-        return $values;
-
+        $this->add_rate($rate);
     }
 
-    /**
-     * Safe load XML.
-     *
-     * @param  string $source
-     * @param  int    $options
-     *
-     * @return SimpleXMLElement|bool
-     */
-    protected function safe_load_xml( $source, $options = 0 ) {
-        $old = null;
+    private function find_category($category_id) {
+        $category = get_term($category_id, 'product_cat');
 
-        if ( function_exists( 'libxml_disable_entity_loader' ) ) {
-            $old = libxml_disable_entity_loader( true );
+        $fr_category = get_option("taxonomy_" . $category_id);
+
+        if ($fr_category['fr_category']) {
+            return $category;
         }
 
-        $dom    = new DOMDocument();
-
-        $return = $dom->loadXML( $source, $options );
-
-        if ( ! is_null( $old ) ) {
-            libxml_disable_entity_loader( $old );
+        // Não relacionou nenhuma das categorias vinculadas ao produto com uma categoria do Frete Rápido
+        if ($category->parent == 0) {
+            return null;
         }
 
-        if ( ! $return ) {
-            return false;
-        }
-
-        if ( isset( $dom->doctype ) ) {
-            throw new Exception( 'Unsafe DOCTYPE Detected while XML parsing' );
-
-            return false;
-        }
-
-        return simplexml_import_dom( $dom );
+        return $this->find_category($category->parent);
     }
-
-
 }
