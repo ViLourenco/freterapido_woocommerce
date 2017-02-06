@@ -290,17 +290,17 @@ if (!class_exists('WC_Freterapido_Main')) :
 
     add_action('product_cat_edit_form_fields', 'text_domain_taxonomy_edit_meta_field', 10, 2);
 
-    // Save extra taxonomy fields callback function.
     function save_taxonomy_custom_meta($term_id) {
         if (isset($_POST['term_meta'])) {
             $term_meta = get_option("taxonomy_" . $term_id);
             $cat_keys = array_keys($_POST['term_meta']);
+
             foreach ($cat_keys as $key) {
                 if (isset($_POST['term_meta'][$key])) {
                 $term_meta[$key] = $_POST['term_meta'][$key];
                 }
             }
-            // Save the option array.
+
             update_option("taxonomy_" . $term_id, $term_meta);
         }
     }
@@ -314,10 +314,10 @@ if (!class_exists('WC_Freterapido_Main')) :
     function woocommerce_product_options_shipping_custom() {
         woocommerce_wp_text_input(
             array(
-                'id' => 'Manufacturing deadline',
+                'id' => 'manufacturing_deadline',
                 'label' => __('Prazo de fabricação', 'woocommerce'),
                 'description' => __('Will be added to the delivery time', 'woocommerce'),
-                'desc_tip' => true
+                'desc_tip' => true,
             )
         );
     }

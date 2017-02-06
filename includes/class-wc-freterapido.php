@@ -188,8 +188,8 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->cnpj = $this->get_option('cnpj');
         $this->results = $this->get_option('results');
         $this->limit = $this->get_option('limit');
-        $this->additional_time = $this->get_option('additional_time');
-        $this->additional_price = $this->get_option('additional_price');
+        $this->additional_time = $this->get_option('additional_time', 0);
+        $this->additional_price = $this->get_option('additional_price', 0);
         $this->token = $this->get_option('token');
 
         // Active logs.
@@ -357,7 +357,9 @@ class WC_Freterapido extends WC_Shipping_Method {
             $dispatcher = $chunk[0]['origem'];
             $shipping = new Shipping([
                 'token' => $this->token,
-                'codigo_plataforma' => 'woocomm26'
+                'codigo_plataforma' => 'woocomm26',
+                'custo_adicional' => $this->additional_price,
+                'prazo_adicional' => $this->additional_time,
             ]);
 
             $volumes = array_map(function ($volume) {
@@ -408,16 +410,10 @@ class WC_Freterapido extends WC_Shipping_Method {
             return $carry;
         }, 0);
 
-        // Prazo adicional
-        $deadline_for_posting = $this->additional_time ?: 0;
-        $merged_quote['prazo_entrega'] += $deadline_for_posting + $manufacturing_deadline;
+        $merged_quote['prazo_entrega'] += $manufacturing_deadline;
 
         $deadline = $merged_quote['prazo_entrega'];
         $deadline_text = '(' . sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline) . ')';
-
-        // Adiciona o custo de envio/postagem no preço do frete
-        $posting_cost = $this->additional_price ?: 0;
-        $merged_quote['preco_frete'] += $posting_cost;
 
         $rate = array(
             'id' => $this->id,
