@@ -56,3 +56,10 @@ msgstr "Será acrecido no valor do frete"
 
 msgid "Integration Token with Frete Rápido"
 msgstr "Token de integração com o Frete Rápido"
+
+
+msgid "Manufacturing deadline"
+msgstr "Prazo de fabricação"
+
+msgid "Will be added to the delivery time"
+msgstr "Será somado ao prazo de entrega"

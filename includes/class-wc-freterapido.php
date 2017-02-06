@@ -59,19 +59,25 @@ class Shipping {
      */
     public function set_limit($limit) {
         if ($limit) {
-            $this->config['limit'] = $limit;
+            $this->config['limite'] = $limit;
         }
 
         return $this;
     }
 
     private function format_request() {
+        $request = array();
+
+        if ($this->dispatcher) {
+            $request['expedidor'] = $this->dispatcher;
+        }
+
         return array_merge(
+            $request,
             array(
                 'remetente' => $this->sender,
                 'destinatario' => $this->receiver,
                 'volumes' => $this->volumes,
-
                 'tipo_cobranca' => 1,
                 'tipo_frete' => 1,
                 'ecommerce' => true,
@@ -92,6 +98,14 @@ class Shipping {
         if (!$result || !isset($result['transportadoras']) || count($result['transportadoras']) === 0) {
             throw new UnexpectedValueException();
         }
+
+        $result['transportadoras'] = array_map(function ($carrier) {
+            if (strtolower($carrier['nome']) === 'correios') {
+                $carrier['nome'] .= " - {$carrier['servico']}";
+            }
+
+            return $carrier;
+        }, $result['transportadoras']);
 
         return $result;
     }
@@ -151,9 +165,8 @@ class WC_Freterapido extends WC_Shipping_Method {
     public function __construct($instance_id = 0) {
         $this->id = 'freterapido';
         $this->instance_id = absint($instance_id);
-        $this->method_title = __('Frete Rápido', 'woo-shipping-gateway');
-
-        $this->title = __('Frete Rápido', 'woo-shipping-gateway'); // This can be added as an setting but for this example its forced.
+        $this->method_title = __('Frete Rápido', 'freterapido');
+        $this->title = __('Frete Rápido', 'freterapido');
 
         $this->init();
     }
@@ -310,7 +323,7 @@ class WC_Freterapido extends WC_Shipping_Method {
                 'altura' => $height ?: $this->default_dimensions['height'],
                 'largura' => $width ?: $this->default_dimensions['width'],
                 'comprimento' => $length ?: $this->default_dimensions['length'],
-                'peso' => $weight ?: ($this->default_dimensions['weight'] * $item['quantity']),
+                'peso' => ($weight ?: $this->default_dimensions['weight']) * $item['quantity'],
                 'valor' => $item['line_total'],
                 'sku' => $product->sku,
                 'tipo' => $fr_category['code'],
@@ -321,16 +334,18 @@ class WC_Freterapido extends WC_Shipping_Method {
 
         $chunks = array();
 
+        $products_to_chunk = $products;
+
         // Agrupa os volumes por origem
-        while (count($products) > 0) {
-            $product = array_shift($products);
+        while (count($products_to_chunk) > 0) {
+            $product = array_shift($products_to_chunk);
             $new_chunk = array($product);
 
-            $same_origin = array_filter($products, function ($_product) use ($product) {
+            $same_origin = array_filter($products_to_chunk, function ($_product) use ($product) {
                 return $_product['origem'] == $product['origem'];
             });
 
-            $products = array_diff_assoc($products, $same_origin);
+            $products_to_chunk = array_diff_assoc($products_to_chunk, $same_origin);
             $new_chunk = array_merge($new_chunk, $same_origin);
             $chunks[] = $new_chunk;
         }
@@ -385,8 +400,24 @@ class WC_Freterapido extends WC_Shipping_Method {
             return $carry;
         });
 
+        $manufacturing_deadline = array_reduce($products, function ($carry, $product) {
+            if ($carry < $product['prazo_fabricacao']) {
+                return (int) $product['prazo_fabricacao'];
+            }
+
+            return $carry;
+        }, 0);
+
+        // Prazo adicional
+        $deadline_for_posting = $this->additional_time ?: 0;
+        $merged_quote['prazo_entrega'] += $deadline_for_posting + $manufacturing_deadline;
+
         $deadline = $merged_quote['prazo_entrega'];
         $deadline_text = '(' . sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline) . ')';
+
+        // Adiciona o custo de envio/postagem no preço do frete
+        $posting_cost = $this->additional_price ?: 0;
+        $merged_quote['preco_frete'] += $posting_cost;
 
         $rate = array(
             'id' => $this->id,

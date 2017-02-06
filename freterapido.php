@@ -309,14 +309,14 @@ if (!class_exists('WC_Freterapido_Main')) :
     add_action('create_product_cat', 'save_taxonomy_custom_meta', 10, 2);
 
     // Display Fields using WooCommerce Action Hook
-    add_action( 'woocommerce_product_options_shipping', 'woocommerce_general_product_data_custom_field' );
+    add_action( 'woocommerce_product_options_shipping', 'woocommerce_product_options_shipping_custom' );
 
-    function woocommerce_general_product_data_custom_field() {
+    function woocommerce_product_options_shipping_custom() {
         woocommerce_wp_text_input(
             array(
-                'id' => 'manufacturing_deadline',
-                'label' => __('Prazo de fabricação', 'woocommerce' ),
-                'description' => __( 'Será somado ao prazo de entrega', 'woocommerce' ),
+                'id' => 'Manufacturing deadline',
+                'label' => __('Prazo de fabricação', 'woocommerce'),
+                'description' => __('Will be added to the delivery time', 'woocommerce'),
                 'desc_tip' => true
             )
         );
@@ -327,5 +327,104 @@ if (!class_exists('WC_Freterapido_Main')) :
     function woocommerce_process_product_meta_fields_save( $post_id ){
         update_post_meta( $post_id, 'manufacturing_deadline', $_POST['manufacturing_deadline'] );
     }
+
+    global $fr_db_version;
+    $fr_db_version = '1.0';
+
+    function fr_install()
+    {
+        global $fr_db_version;
+
+        fr_category_init();
+
+        $fr_categories = [
+            ['name' => 'Abrasivos', 'code' => 1],
+            ['name' => 'Adubos / Fertilizantes', 'code' => 2],
+            ['name' => 'Alimentos', 'code' => 3],
+            ['name' => 'Artigos para Pesca', 'code' => 4],
+            ['name' => 'Auto Peças', 'code' => 5],
+            ['name' => 'Bebidas / Destilados', 'code' => 6],
+            ['name' => 'Brindes', 'code' => 7],
+            ['name' => 'Brinquedos', 'code' => 8],
+            ['name' => 'Calçados', 'code' => 9],
+            ['name' => 'CD / DVD / Blu-Ray', 'code' => 10],
+            ['name' => 'Combustíveis / Óleos', 'code' => 11],
+            ['name' => 'Confecção', 'code' => 12],
+            ['name' => 'Cosméticos / Perfumaria', 'code' => 13],
+            ['name' => 'Couro', 'code' => 14],
+            ['name' => 'Derivados Petróleo', 'code' => 15],
+            ['name' => 'Descartáveis', 'code' => 16],
+            ['name' => 'Editorial', 'code' => 17],
+            ['name' => 'Eletrônicos', 'code' => 18],
+            ['name' => 'Eletrodomésticos', 'code' => 19],
+            ['name' => 'Embalagens', 'code' => 20],
+            ['name' => 'Explosivos / Pirotécnicos', 'code' => 21],
+            ['name' => 'Farmacêutico / Medicamentos', 'code' => 22],
+            ['name' => 'Ferragens', 'code' => 23],
+            ['name' => 'Ferramentas', 'code' => 24],
+            ['name' => 'Fibras Ópticas', 'code' => 25],
+            ['name' => 'Fonográfico', 'code' => 26],
+            ['name' => 'Fotográfico', 'code' => 27],
+            ['name' => 'Fraldas / Geriátricas', 'code' => 28],
+            ['name' => 'Higiene / Limpeza', 'code' => 29],
+            ['name' => 'Impressos', 'code' => 30],
+            ['name' => 'Informática / Computadores', 'code' => 31],
+            ['name' => 'Instrumento Musical', 'code' => 32],
+            ['name' => 'Livro(s)', 'code' => 33],
+            ['name' => 'Materiais Escolares', 'code' => 34],
+            ['name' => 'Materiais Esportivos', 'code' => 35],
+            ['name' => 'Materiais Frágeis', 'code' => 36],
+            ['name' => 'Material de Construção', 'code' => 37],
+            ['name' => 'Material de Irrigação', 'code' => 38],
+            ['name' => 'Material Elétrico / Lâmpada(s)', 'code' => 39],
+            ['name' => 'Material Gráfico', 'code' => 40],
+            ['name' => 'Material Hospitalar', 'code' => 41],
+            ['name' => 'Material Odontológico', 'code' => 42],
+            ['name' => 'Material Pet Shop / Rações', 'code' => 43],
+            ['name' => 'Material Veterinário', 'code' => 44],
+            ['name' => 'Móveis / Utensílios', 'code' => 45],
+            ['name' => 'Moto Peças', 'code' => 46],
+            ['name' => 'Mudas / Plantas', 'code' => 47],
+            ['name' => 'Papelaria / Documentos', 'code' => 48],
+            ['name' => 'Perfumaria', 'code' => 49],
+            ['name' => 'Material Plástico', 'code' => 50],
+            ['name' => 'Pneus e Borracharia', 'code' => 51],
+            ['name' => 'Produtos Cerâmicos', 'code' => 52],
+            ['name' => 'Produtos Químicos', 'code' => 53],
+            ['name' => 'Produtos Veterinários', 'code' => 54],
+            ['name' => 'Revistas', 'code' => 55],
+            ['name' => 'Sementes', 'code' => 56],
+            ['name' => 'Suprimentos Agrícolas / Rurais', 'code' => 57],
+            ['name' => 'Têxtil', 'code' => 58],
+            ['name' => 'Vacinas', 'code' => 59],
+            ['name' => 'Vestuário', 'code' => 60],
+            ['name' => 'Vidros / Frágil', 'code' => 61],
+            ['name' => 'Cargas refrigeradas/congeladas', 'code' => 62],
+            ['name' => 'Papelão', 'code' => 63],
+            ['name' => 'Outros', 'code' => 999],
+        ];
+
+        foreach ($fr_categories as $fr_category) {
+            wp_insert_term($fr_category['name'], 'fr_category', ['description' => $fr_category['code']]);
+        }
+
+        add_option('fr_db_version', $fr_db_version);
+    }
+
+    register_activation_hook( __FILE__, 'fr_install' );
+
+    function fr_category_init() {
+        // create a new taxonomy
+        register_taxonomy(
+            'fr_category',
+            'product',
+            array(
+                'label' => __( 'FR Category' ),
+                'hierarchical' => false,
+                'show_ui' => false,
+            )
+        );
+    }
+    add_action( 'init', 'fr_category_init' );
 
 endif;
