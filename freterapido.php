@@ -126,59 +126,47 @@ if (!class_exists('WC_Freterapido_Main')) :
 
     add_action( 'plugins_loaded', array( 'WC_Freterapido_Main', 'get_instance' ) );
 
-    // ///////////////////////////
-    // create custom fields in category page
-    // ///////////////////////////
-
-    //Product Cat creation page
     function text_domain_taxonomy_add_new_meta_field() {
         /** @var WP_Term[] $fr_categories */
         $fr_categories = get_terms(['taxonomy' => 'fr_category', 'hide_empty' => false]);
-
         ?>
-            <hr>
-            <h1>Configurações do Frete Rápido</h1>
-            <div class="form-field">
-                <!-- <label for="term_meta[wh_meta_title]"><?php _e('Meta Title', 'text_domain'); ?></label> -->
-                <label for="fr_category"><?php _e('Categoria no Frete Rápido', 'text_domain'); ?></label>
-                <select name="fr_category" id="fr_category">
-                    <option value="0" selected>-- Selecione --</option>
-                    <?php
-                    foreach ($fr_categories as $fr_category) {
-                        echo "<option value='{$fr_category->description}'>{$fr_category->name}</option>";
-                    }
-                    ?>
-                </select>
-                <!-- <p class="description"><?php _e('Enter a meta title, <= 60 character', 'text_domain'); ?></p> -->
-            </div>
-            <h2>Endereço de Origem:</h2>
-            <span>Dados de endereço específicos por categoria</span>
-            <div class="form-field">
-                <label for="fr_origin_cep"><?php _e('Cep', 'text_domain'); ?></label>
-                <input type="text" name="fr_origin_cep" id="fr_origin_cep">
-                <p class="description"><?php _e('Apenas Números', 'text_domain'); ?></p>
-            </div>
-            <div class="form-field">
-                <label for="fr_origin_rua"><?php _e('Rua', 'text_domain'); ?></label>
-                <input type="text" name="fr_origin_rua" id="fr_origin_rua">
-                <!-- <p class="description"><?php _e('Digite o CEP de origem para esta', 'text_domain'); ?></p> -->
-            </div>
-            <div class="form-field">
-                <label for="fr_origin_numero"><?php _e('Número', 'text_domain'); ?></label>
-                <input type="text" name="fr_origin_numero" id="fr_origin_numero">
-                <!-- <p class="description"><?php _e('Digite o CEP de origem para esta', 'text_domain'); ?></p> -->
-            </div>
-            <div class="form-field">
-                <label for="fr_origin_bairro"><?php _e('Bairro', 'text_domain'); ?></label>
-                <input type="text" name="fr_origin_bairro" id="fr_origin_bairro">
-                <!-- <p class="description"><?php _e('Digite o CEP de origem para esta', 'text_domain'); ?></p> -->
-            </div>
-            <div class="form-field">
-                <label for="fr_origin_complemento"><?php _e('Complemento', 'text_domain'); ?></label>
-                <input type="text" name="fr_origin_complemento" id="fr_origin_complemento">
-                <!-- <p class="description"><?php _e('Digite o CEP de origem para esta', 'text_domain'); ?></p> -->
-            </div>
-            <hr>
+        <hr>
+        <h1>Configurações do Frete Rápido</h1>
+        <div class="form-field">
+            <label for="term_meta[fr_category]"><?php _e('Categoria no Frete Rápido', 'freterapido'); ?></label>
+            <select name="term_meta[fr_category]" id="term_meta[fr_category]">
+                <option value="0" selected>-- Selecione --</option>
+                <?php
+                foreach ($fr_categories as $fr_category) {
+                    echo "<option value='{$fr_category->description}'>{$fr_category->name}</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <h2>Endereço de Origem:</h2>
+        <span>Dados de endereço específicos por categoria</span>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_cep]"><?php _e('Cep', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]">
+            <p class="description"><?php _e('Apenas Números', 'freterapido'); ?></p>
+        </div>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_rua]"><?php _e('Rua', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_rua]" id="term_meta[fr_origin_rua]">
+        </div>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_numero]"><?php _e('Número', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_numero]" id="term_meta[fr_origin_numero]">
+        </div>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_bairro]"><?php _e('Bairro', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_bairro]" id="term_meta[fr_origin_bairro]">
+        </div>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_complemento]"><?php _e('Complemento', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_complemento]" id="term_meta[fr_origin_complemento]">
+        </div>
+        <hr>
         <?php
     }
 
@@ -186,13 +174,10 @@ if (!class_exists('WC_Freterapido_Main')) :
 
     //Product Cat Edit page
     function text_domain_taxonomy_edit_meta_field($term) {
-
         //getting term ID
         $term_id = $term->term_id;
-
         /** @var WP_Term[] $fr_categories */
         $fr_categories = get_terms(['taxonomy' => 'fr_category', 'hide_empty' => false]);
-
         // retrieve the existing value(s) for this meta field. This returns an array
         $term_meta = get_option("taxonomy_" . $term_id);
         ?>
@@ -209,7 +194,6 @@ if (!class_exists('WC_Freterapido_Main')) :
                     <label for="term_meta[fr_category]"><?php _e('Categoria no Frete Rápido', 'text_domain'); ?></label>
                 </th>
                 <td>
-                    <!-- value="<?php echo esc_attr($term_meta['wh_meta_title']) ? esc_attr($term_meta['wh_meta_title']) : ''; ?>" -->
                     <select name="term_meta[fr_category]" id="term_meta[fr_category]">
                         <option value="0">-- Selecione --</option>
                         <?php
@@ -230,13 +214,6 @@ if (!class_exists('WC_Freterapido_Main')) :
                     <span>Dados de endereço específicos por categoria</span>
                 </td>
             </tr>
-            <!-- <tr class="form-field">
-                <th scope="row" valign="top"><label for="term_meta[wh_meta_desc]"><?php _e('Meta Description', 'text_domain'); ?></label></th>
-                <td>
-                    <textarea name="term_meta[wh_meta_desc]" id="term_meta[wh_meta_desc]"><?php echo esc_attr($term_meta['wh_meta_desc']) ? esc_attr($term_meta['wh_meta_title']) : ''; ?></textarea>
-                    <p class="description"><?php _e('Enter a meta description', 'text_domain'); ?></p>
-                </td>
-            </tr> -->
             <tr class="form-field">
                 <th scope="row" valign="top">
                     <label for="term_meta[fr_origin_cep]"><?php _e('Cep', 'text_domain'); ?></label>
