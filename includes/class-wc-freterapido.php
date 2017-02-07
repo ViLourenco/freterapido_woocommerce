@@ -324,11 +324,13 @@ class WC_Freterapido extends WC_Shipping_Method {
 
                 if ($product_category_fr_data && ($has_dispatcher)) {
                     $dispatcher = array(
-                        'cep' => $product_category_fr_data['fr_origin_cep'],
-                        'rua' => $product_category_fr_data['fr_origin_rua'],
-                        'numero' => $product_category_fr_data['fr_origin_numero'],
-                        'complemento' => $product_category_fr_data['fr_origin_complemento'],
-                        'bairro' => $product_category_fr_data['fr_origin_bairro'],
+                        'endereco' => array(
+                            'cep' => $product_category_fr_data['fr_origin_cep'],
+                            'rua' => $product_category_fr_data['fr_origin_rua'],
+                            'numero' => $product_category_fr_data['fr_origin_numero'],
+                            'complemento' => $product_category_fr_data['fr_origin_complemento'],
+                            'bairro' => $product_category_fr_data['fr_origin_bairro'],
+                        )
                     );
                 }
 
