@@ -390,7 +390,7 @@ class WC_Freterapido extends WC_Shipping_Method {
             ]);
 
             $volumes = array_map(function ($volume) {
-                unset($volume['origem']);
+                unset($volume['origem'], $volume['prazo_fabricacao']);
                 return $volume;
             }, array_values($chunk));
 
