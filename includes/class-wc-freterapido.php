@@ -247,8 +247,7 @@ class WC_Freterapido extends WC_Shipping_Method {
 	 * @return void
 	 */
 	public function admin_options() {
-		echo '<h3>' . $this->method_title . '</h3>';
-		echo '<p>' . __( 'Frete Rápido is a brazilian delivery plataform.', 'woo-shipping-gateway' ) . '</p>';
+		echo '<h2>' . $this->method_title . '</h2>';
 		echo '<table class="form-table">';
 		$this->generate_settings_html();
 		echo '</table>';
