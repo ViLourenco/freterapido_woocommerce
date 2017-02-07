@@ -94,7 +94,28 @@ return array(
         'type' => 'text',
         'description' => __('Will be added in the freight value', 'freterapido'),
         'desc_tip' => true,
-        'default' => '2'
+        'default' => '0',
+        'placeholder' => '0.00',
+    ),
+    'Dimensões padrão' => array(
+        'title' => __('Default dimensions', 'freterapido'),
+        'type' => 'title',
+        'description' => __('They will be used if the dimensions of the products have not been informed <b>(in meters)</b>', 'freterapido')
+    ),
+    'min_length' => array(
+        'title' => __('Minimum length', 'freterapido'),
+        'type' => 'text',
+        'placeholder' => '0.00'
+    ),
+    'min_width' => array(
+        'title' => __('Minimum width', 'freterapido'),
+        'type' => 'text',
+        'placeholder' => '0.00'
+    ),
+    'min_heigth' => array(
+        'title' => __('Minimum height', 'freterapido'),
+        'type' => 'text',
+        'placeholder' => '0.00'
     ),
     'token' => array(
         'title' => __('Token', 'freterapido'),

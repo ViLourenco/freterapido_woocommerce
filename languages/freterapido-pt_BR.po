@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2017-02-03 16:28-0200\n"
-"PO-Revision-Date: 2017-02-03 17:54-0200\n"
+"PO-Revision-Date: 2017-02-07 10:22-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -57,9 +57,23 @@ msgstr "Será acrecido no valor do frete"
 msgid "Integration Token with Frete Rápido"
 msgstr "Token de integração com o Frete Rápido"
 
-
 msgid "Manufacturing deadline"
 msgstr "Prazo de fabricação"
 
 msgid "Will be added to the delivery time"
 msgstr "Será somado ao prazo de entrega"
+
+msgid "Default dimensions"
+msgstr "Dimensões padrões"
+
+msgid "They will be used if the dimensions of the products have not been informed <b>(in meters)</b>"
+msgstr "Serão usadas caso as dimensões dos produtos não tenham sido informadas <b>(em metros)</b>"
+
+msgid "Minimum length"
+msgstr "Comprimento mínimo"
+
+msgid "Minimum width"
+msgstr "Largura mínima"
+
+msgid "Minimum height"
+msgstr "Altura mínima"

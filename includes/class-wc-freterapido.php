@@ -9,12 +9,33 @@ class Shipping {
     private $dispatcher;
     private $volumes;
 
+    private $default_dimensions = [
+        'height' => 0.5,
+        'width' => 0.5,
+        'length' => 0.5,
+        'weight' => 1
+    ];
+
     public function __construct(array $config) {
         $this->config = array_merge([
             'tipo_cobranca' => 1,
             'tipo_frete' => 1,
             'ecommerce' => true,
         ], $config);
+    }
+
+    public function set_default_dimensions(array $dimensions) {
+        foreach ($this->default_dimensions as $dimension => $value) {
+            $new_value = (float) $dimensions[$dimension];
+
+            if ($new_value < $value) {
+                continue;
+            }
+
+            $this->default_dimensions[$dimension] = $new_value;
+        }
+
+        return $this;
     }
 
     public function add_sender(array $sender) {
@@ -36,7 +57,25 @@ class Shipping {
     }
 
     public function add_volumes(array $volumes) {
-        $this->volumes = $volumes;
+        $this->volumes = array_map(function ($volume) {
+            if (!$volume['altura']) {
+                $volume['altura'] = $this->default_dimensions['height'];
+            }
+
+            if (!$volume['largura']) {
+                $volume['largura'] = $this->default_dimensions['width'];
+            }
+
+            if (!$volume['comprimento']) {
+                $volume['comprimento'] = $this->default_dimensions['length'];
+            }
+
+            if (!$volume['peso']) {
+                $volume['peso'] = $this->default_dimensions['weight'] * $volume['quantidade'];
+            }
+
+            return $volume;
+        }, $volumes);
 
         return $this;
     }
@@ -137,18 +176,6 @@ class Shipping {
  * WC_Freterapido class.
  */
 class WC_Freterapido extends WC_Shipping_Method {
-
-    /**
-     * Dimensões padrão em KG
-     *
-     * @var array
-     */
-    private $default_dimensions = [
-        'height' => 0.5,
-        'width' => 0.5,
-        'length' => 0.5,
-        'weight' => 1
-    ];
 
     /**
      * Será usada pelo produto que não tenha uma categoria do FR definida para ele
@@ -320,10 +347,10 @@ class WC_Freterapido extends WC_Shipping_Method {
 
             return array(
                 'quantidade' => $item['quantity'],
-                'altura' => $height ?: $this->default_dimensions['height'],
-                'largura' => $width ?: $this->default_dimensions['width'],
-                'comprimento' => $length ?: $this->default_dimensions['length'],
-                'peso' => ($weight ?: $this->default_dimensions['weight']) * $item['quantity'],
+                'altura' => $height,
+                'largura' => $width,
+                'comprimento' => $length,
+                'peso' => $weight * $item['quantity'],
                 'valor' => $item['line_total'],
                 'sku' => $product->sku,
                 'tipo' => $fr_category['code'],
@@ -376,6 +403,11 @@ class WC_Freterapido extends WC_Shipping_Method {
                         ]
                     ])
                     ->add_sender(['cnpj' => $this->cnpj])
+                    ->set_default_dimensions([
+                        'length' => $this->get_option('min_length', 0),
+                        'width' => $this->get_option('min_width', 0),
+                        'height' => $this->get_option('min_height', 0),
+                    ])
                     ->add_volumes($volumes)
                     ->set_filter($this->results)
                     ->set_limit($this->limit)
