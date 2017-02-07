@@ -370,7 +370,7 @@ class WC_Freterapido extends WC_Shipping_Method {
             $new_chunk = array($product);
 
             $same_origin = array_filter($products_to_chunk, function ($_product) use ($product) {
-                return $_product['origem'] == $product['origem'];
+                return $_product['origem']['endereco']['cep'] == $product['origem']['endereco']['cep'];
             });
 
             $products_to_chunk = array_diff_assoc($products_to_chunk, $same_origin);
