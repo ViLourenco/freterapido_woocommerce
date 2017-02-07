@@ -292,8 +292,8 @@ if (!class_exists('WC_Freterapido_Main')) :
         woocommerce_wp_text_input(
             array(
                 'id' => 'manufacturing_deadline',
-                'label' => __('Prazo de fabricação', 'woocommerce'),
-                'description' => __('Will be added to the delivery time', 'woocommerce'),
+                'label' => __('Manufacturing deadline', 'freterapido'),
+                'description' => __('Will be added to the delivery time', 'freterapido'),
                 'desc_tip' => true,
             )
         );
