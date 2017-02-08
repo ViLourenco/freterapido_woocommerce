@@ -146,8 +146,8 @@ if (!class_exists('WC_Freterapido_Main')) :
         <h2>Endereço de Origem:</h2>
         <span>Dados de endereço específicos por categoria</span>
         <div class="form-field">
-            <label for="term_meta[fr_origin_cep]"><?php _e('Cep', 'freterapido'); ?></label>
-            <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]">
+            <label for="term_meta[fr_origin_cep]"><?php _e('CEP', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" maxlength="8" pattern="[0-9]">
             <p class="description"><?php _e('Apenas Números', 'freterapido'); ?></p>
         </div>
         <div class="form-field">
@@ -216,10 +216,10 @@ if (!class_exists('WC_Freterapido_Main')) :
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_cep]"><?php _e('Cep', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_cep]"><?php _e('CEP', 'text_domain'); ?></label>
                 </th>
                 <td>
-                    <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" value="<?php echo esc_attr($term_meta['fr_origin_cep']) ? esc_attr($term_meta['fr_origin_cep']) : ''; ?>">
+                    <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" value="<?php echo esc_attr($term_meta['fr_origin_cep']) ? esc_attr($term_meta['fr_origin_cep']) : ''; ?>"  maxlength="8" pattern="[0-9]">
                     <p class="description"><?php _e('Apenas Números', 'text_domain'); ?></p>
                 </td>
             </tr>
