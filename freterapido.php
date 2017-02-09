@@ -28,7 +28,7 @@ if (!class_exists('WC_Freterapido_Main')) :
          *
          * @var string
          */
-        const VERSION = '2.1.0';
+        const VERSION = '1.0.0';
 
         /**
          * Instance of this class.
@@ -344,9 +344,6 @@ if (!class_exists('WC_Freterapido_Main')) :
     add_action('edited_product_cat', 'save_taxonomy_custom_meta', 10, 2);
     add_action('create_product_cat', 'save_taxonomy_custom_meta', 10, 2);
 
-    // Display Fields using WooCommerce Action Hook
-    add_action( 'woocommerce_product_options_shipping', 'woocommerce_product_options_shipping_custom' );
-
     function woocommerce_product_options_shipping_custom() {
         woocommerce_wp_text_input(
             array(
@@ -358,12 +355,15 @@ if (!class_exists('WC_Freterapido_Main')) :
         );
     }
 
-    // Save Fields using WooCommerce Action Hook
-    add_action( 'woocommerce_process_product_meta', 'woocommerce_process_product_meta_fields_save' );
+    // Display Fields using WooCommerce Action Hook
+    add_action( 'woocommerce_product_options_shipping', 'woocommerce_product_options_shipping_custom' );
 
     function woocommerce_process_product_meta_fields_save( $post_id ){
         update_post_meta( $post_id, 'manufacturing_deadline', $_POST['manufacturing_deadline'] );
     }
+
+    // Save Fields using WooCommerce Action Hook
+    add_action( 'woocommerce_process_product_meta', 'woocommerce_process_product_meta_fields_save' );
 
     global $fr_db_version;
     $fr_db_version = '1.0';
@@ -461,21 +461,21 @@ if (!class_exists('WC_Freterapido_Main')) :
             )
         );
     }
+
     add_action( 'init', 'fr_category_init' );
 
     /**
      * Register new status with ID "wc-misha-shipment" and label "Awaiting shipment"
      */
     function freterapido_register_awaiting_shipment_status() {
-
         register_post_status( 'wc-freterapido-shipment', array(
             'label'		=> 'Awaiting shipment',
             'public'	=> true,
             'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
             'label_count'	=> _n_noop( 'Awaiting shipment <span class="count">(%s)</span>', 'Awaiting shipment <span class="count">(%s)</span>' )
         ) );
-
     }
+
     add_action( 'init', 'freterapido_register_awaiting_shipment_status' );
 
     /*
@@ -489,7 +489,7 @@ if (!class_exists('WC_Freterapido_Main')) :
         foreach ( $wc_statuses_arr as $id => $label ) {
             $new_statuses_arr[ $id ] = $label;
 
-            if ( 'wc-completed' === $id ) { // after "Completed" status
+            if ( 'wc-on-hold' === $id ) { // after "Completed" status
                 $new_statuses_arr['wc-awaiting-shipment'] = __('Awaiting shipment', 'freterapido');
             }
         }
@@ -497,13 +497,13 @@ if (!class_exists('WC_Freterapido_Main')) :
         return $new_statuses_arr;
 
     }
-    add_filter( 'wc_order_statuses', 'freterapido_add_status' );
 
-    add_action( 'woocommerce_order_status_awaiting-shipment', 'order_awaiting_shipment' );
+    add_filter( 'wc_order_statuses', 'freterapido_add_status' );
 
     function order_awaiting_shipment($order_id) {
         $order = wc_get_order($order_id);
 
+        // Verifica se o frete contratado é do Frete Rápido
         $method = array_filter($order->get_shipping_methods(), function ($method) {
             return $method['method_id'] == 'freterapido';
         });
@@ -557,5 +557,7 @@ if (!class_exists('WC_Freterapido_Main')) :
 
         wc_add_order_item_meta($order_id, 'freterapido_shippings', array_values($results));
     }
+
+    add_action( 'woocommerce_order_status_awaiting-shipment', 'order_awaiting_shipment' );
 
 endif;
