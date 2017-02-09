@@ -42,15 +42,20 @@ class WC_Freterapido_Orders {
 	/**
 	 * Tracking code metabox content.
 	 *
-	 * @param WC_Post $post Post data.
+	 * @param WP_Post $post Post data.
 	 */
 	public function metabox_content( $post ) {
-        echo '<div><p><strong>Códigos dos fretes contratados:</strong></p><table id="newmeta"><tbody>';
-//                    <tr><td>#KASFFH9DF6</td></tr>
-        echo    '</tbody></table></div>';
+	    $shippings = wc_get_order_item_meta($post->ID, 'freterapido_shippings') ?: array();
 
-		echo '<label for="correios_tracking">' . esc_html__( 'Tracking code:', 'woocommerce-correios' ) . '</label><br />';
-		echo '<input type="text" id="correios_tracking" name="correios_tracking" value="' . esc_attr( get_post_meta( $post->ID, '_correios_tracking_code', true ) ) . '" style="width: 100%;" />';
+        echo '<div><p><strong>' . __('Shipping codes contracted:', 'freterapido') . '</strong></p><table id="newmeta"><tbody>';
+        if (empty($shippings)) {
+            echo '<tr><td>' . __('Waiting for status:', 'freterapido') . ' <b>' . __('Awaiting shipment', 'freterapido') . '</b></td></tr>';
+        }
+
+        foreach ($shippings as $shipping) {
+            echo "<tr><td>{$shipping}</td></tr>";
+        }
+        echo    '</tbody></table></div>';
 	}
 
 	/**

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2017-02-03 16:28-0200\n"
-"PO-Revision-Date: 2017-02-07 10:22-0200\n"
+"PO-Revision-Date: 2017-02-09 13:13-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,3 +77,12 @@ msgstr "Largura mínima"
 
 msgid "Minimum height"
 msgstr "Altura mínima"
+
+msgid "Shipping codes contracted:"
+msgstr "Códigos dos fretes contratados:"
+
+msgid "Awaiting shipment"
+msgstr "À espera de envio"
+
+msgid "Waiting for status:"
+msgstr "Aguardando status:"
