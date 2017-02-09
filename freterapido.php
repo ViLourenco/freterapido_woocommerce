@@ -144,11 +144,12 @@ if (!class_exists('WC_Freterapido_Main')) :
                 ?>
             </select>
         </div>
-        <h2>Endereço de Origem:</h2>
+        <h2>Dados de Origem:</h2>
         <span>Dados de endereço específicos por categoria</span>
+        <h2>Endereço:</h2>
         <div class="form-field">
-            <label for="term_meta[fr_origin_cep]"><?php _e('Cep', 'freterapido'); ?></label>
-            <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]">
+            <label for="term_meta[fr_origin_cep]"><?php _e('CEP', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" maxlength="8" pattern="[0-9]">
             <p class="description"><?php _e('Apenas Números', 'freterapido'); ?></p>
         </div>
         <div class="form-field">
@@ -167,6 +168,20 @@ if (!class_exists('WC_Freterapido_Main')) :
             <label for="term_meta[fr_origin_complemento]"><?php _e('Complemento', 'freterapido'); ?></label>
             <input type="text" name="term_meta[fr_origin_complemento]" id="term_meta[fr_origin_complemento]">
         </div>
+        <h2>Empresa:</h2>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_cnpj]"><?php _e('CNPJ', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_cnpj]" id="term_meta[fr_origin_cnpj]">
+        </div>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_razao_social]"><?php _e('Razão Social', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_razao_social]" id="term_meta[fr_origin_razao_social]">
+        </div>
+        <div class="form-field">
+            <label for="term_meta[fr_origin_inscricao_estadual]"><?php _e('Inscrição Estadual', 'freterapido'); ?></label>
+            <input type="text" name="term_meta[fr_origin_inscricao_estadual]" id="term_meta[fr_origin_inscricao_estadual]">
+        </div>
+
         <hr>
         <?php
     }
@@ -211,16 +226,24 @@ if (!class_exists('WC_Freterapido_Main')) :
                 <th scope="row" valign="top">
                 </th>
                 <td>
-                    <h2>Endereço de Origem:</h2>
+                    <h2>Dados de Origem:</h2>
                     <span>Dados de endereço específicos por categoria</span>
                 </td>
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_cep]"><?php _e('Cep', 'text_domain'); ?></label>
+                    <h4>Endereço:</h4>
                 </th>
                 <td>
-                    <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" value="<?php echo esc_attr($term_meta['fr_origin_cep']) ? esc_attr($term_meta['fr_origin_cep']) : ''; ?>">
+                    
+                </td>
+            </tr>
+            <tr class="form-field">
+                <th scope="row" valign="top">
+                    <label for="term_meta[fr_origin_cep]"><?php _e('CEP', 'text_domain'); ?></label>
+                </th>
+                <td>
+                    <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" value="<?php echo esc_attr($term_meta['fr_origin_cep']) ? esc_attr($term_meta['fr_origin_cep']) : ''; ?>"  maxlength="8" pattern="[0-9]">
                     <p class="description"><?php _e('Apenas Números', 'text_domain'); ?></p>
                 </td>
             </tr>
@@ -254,6 +277,38 @@ if (!class_exists('WC_Freterapido_Main')) :
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_complemento]" id="term_meta[fr_origin_complemento]" value="<?php echo esc_attr($term_meta['fr_origin_complemento']) ? esc_attr($term_meta['fr_origin_complemento']) : ''; ?>">
+                </td>
+            </tr>
+            <tr class="form-field">
+                <th scope="row" valign="top">
+                    <h4>Empresa:</h4>
+                </th>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr class="form-field">
+                <th scope="row" valign="top">
+                    <label for="term_meta[fr_origin_cnpj]"><?php _e('CNPJ', 'text_domain'); ?></label>
+                </th>
+                <td>
+                    <input type="text" name="term_meta[fr_origin_cnpj]" id="term_meta[fr_origin_cnpj]" value="<?php echo esc_attr($term_meta['fr_origin_cnpj']) ? esc_attr($term_meta['fr_origin_cnpj']) : ''; ?>">
+                </td>
+            </tr>
+            <tr class="form-field">
+                <th scope="row" valign="top">
+                    <label for="term_meta[fr_origin_razao_social]"><?php _e('Razão Social', 'text_domain'); ?></label>
+                </th>
+                <td>
+                    <input type="text" name="term_meta[fr_origin_razao_social]" id="term_meta[fr_origin_razao_social]" value="<?php echo esc_attr($term_meta['fr_origin_razao_social']) ? esc_attr($term_meta['fr_origin_razao_social']) : ''; ?>">
+                </td>
+            </tr>
+            <tr class="form-field">
+                <th scope="row" valign="top">
+                    <label for="term_meta[fr_origin_inscricao_estadual]"><?php _e('Inscrição Estadual', 'text_domain'); ?></label>
+                </th>
+                <td>
+                    <input type="text" name="term_meta[fr_origin_inscricao_estadual]" id="term_meta[fr_origin_inscricao_estadual]" value="<?php echo esc_attr($term_meta['fr_origin_inscricao_estadual']) ? esc_attr($term_meta['fr_origin_inscricao_estadual']) : ''; ?>">
                 </td>
             </tr>
             <tr>
