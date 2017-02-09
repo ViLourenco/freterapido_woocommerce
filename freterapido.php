@@ -49,6 +49,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             if (class_exists('WC_Integration')) {
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-shipping-simulator.php';
+                include_once WOO_FR_PATH . 'includes/class-wc-freterapido-orders.php';
 
                 add_filter('woocommerce_shipping_methods', array($this, 'wcfreterapido_add_method'));
 
@@ -403,5 +404,153 @@ if (!class_exists('WC_Freterapido_Main')) :
         );
     }
     add_action( 'init', 'fr_category_init' );
+
+
+
+
+
+
+
+
+    /**
+     * Register new status with ID "wc-misha-shipment" and label "Awaiting shipment"
+     */
+    function misha_register_awaiting_shipment_status() {
+
+        register_post_status( 'wc-misha-shipment', array(
+            'label'		=> 'Awaiting shipment',
+            'public'	=> true,
+            'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
+            'label_count'	=> _n_noop( 'Awaiting shipment <span class="count">(%s)</span>', 'Awaiting shipment <span class="count">(%s)</span>' )
+        ) );
+
+    }
+    add_action( 'init', 'misha_register_awaiting_shipment_status' );
+
+    /*
+     * Add registered status to list of WC Order statuses
+     * @param array $wc_statuses_arr Array of all order statuses on the website
+     */
+    function misha_add_status( $wc_statuses_arr ) {
+
+        $new_statuses_arr = array();
+
+        // add new order status after processing
+        foreach ( $wc_statuses_arr as $id => $label ) {
+            $new_statuses_arr[ $id ] = $label;
+
+            if ( 'wc-completed' === $id ) { // after "Completed" status
+                $new_statuses_arr['wc-awaiting-shipment'] = 'Awaiting shipment';
+            }
+        }
+
+        return $new_statuses_arr;
+
+        // if order status order doesn't matter for you you can remove lines 21-32 and uncomment the following 35-36
+        // $wc_statuses_arr['wc-misha-shipment'] = 'Awaiting shipment';
+        // return $wc_statuses_arr;
+
+    }
+    add_filter( 'wc_order_statuses', 'misha_add_status' );
+
+    add_action( 'woocommerce_order_status_awaiting-shipment', 'order_awaiting_shipment' );
+
+//    include_once dirname( __FILE__ ) . '/includes/class-wc-freterapido.php';
+
+    function order_awaiting_shipment($order_id) {
+        $order = wc_get_order($order_id);
+
+        $method = array_filter($order->get_shipping_methods(), function ($method) {
+            return $method['method_id'] == 'freterapido';
+        });
+
+        $item_id = array_shift(array_keys($method));
+
+        $item_meta = wc_get_order_item_meta($item_id, 'freterapido_quotes');
+
+        $settings = get_option('woocommerce_freterapido_settings');
+
+        $address = $order->get_address('shipping');
+
+        $default_params = array(
+            'remetente' => array(
+                'cnpj' => $settings['cnpj']
+            ),
+
+            'destinatario' => array(
+                'cnpj_cpf' => fix_zip_code($order->billing_cpf),
+                'nome' => $order->get_formatted_shipping_full_name(),
+                'email' => $order->billing_email,
+                'telefone' => fix_zip_code($order->billing_phone),
+                'endereco' => array(
+                    'cep' => fix_zip_code($address['postcode']),
+                    'rua' => $address['address_1'],
+                    'bairro' => isset($address['neighborhood']) ? $address['neighborhood'] : '',
+                    'numero' => isset($address['number']) ? $address['number'] : ''
+                )
+            )
+        );
+
+
+
+        foreach ($item_meta as $item) {
+            if ($item['expedidor']) {
+                $params = array_merge(
+                    $default_params,
+                    array(
+                        'expedidor' => array_merge(
+                            $item['expedidor'],
+                            array(
+                                "cnpj" => "70017668000127",
+                                "razao_social" => "EXPEDIDOR",
+                                "inscricao_estadual" => "123456",
+                            )
+                        )
+                    )
+                );
+            }
+
+            do_request("http://api-externa.freterapido.app/embarcador/v1/quote/ecommerce/{$item['token']}/offer/{$item['oferta']}?token={$settings['token']}", $params);
+        }
+    }
+
+    function do_request($url, $params = array()) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $data_string = json_encode($params);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string)
+        ));
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+
+        curl_close($ch);
+
+        return ['info' => $info, 'result' => json_decode($result, true)];
+    }
+
+    function fix_zip_code($zip)
+    {
+        $fixed = preg_replace('([^0-9])', '', $zip);
+
+        return $fixed;
+    }
+
+
+
+
+
+
+
+
+
+
 
 endif;

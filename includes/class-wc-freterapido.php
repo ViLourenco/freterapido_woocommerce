@@ -126,7 +126,7 @@ class Shipping {
     }
 
     public function get_quote() {
-        $response = $this->do_request(self::API_URL, $this->format_request());
+        $response = self::do_request(self::API_URL, $this->format_request());
 
         if ((int)$response['info']['http_code'] === 401) {
             throw new InvalidArgumentException();
@@ -149,7 +149,7 @@ class Shipping {
         return $result;
     }
 
-    private function do_request($url, $params = array()) {
+    static function do_request($url, $params = array()) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -396,7 +396,7 @@ class WC_Freterapido extends WC_Shipping_Method {
             }, array_values($chunk));
 
             try {
-                $quotes[] = $shipping
+                $new_quote = $shipping
                     ->add_receiver([
                         'tipo_pessoa' => 1,
                         'endereco' => [
@@ -414,6 +414,9 @@ class WC_Freterapido extends WC_Shipping_Method {
                     ->set_limit($this->limit)
                     ->add_dispatcher($dispatcher)
                     ->get_quote();
+
+                $new_quote['expedidor'] = $dispatcher;
+                $quotes[] = $new_quote;
             } catch (Exception $invalid_argument) {
                 return;
             }
@@ -448,13 +451,26 @@ class WC_Freterapido extends WC_Shipping_Method {
         $deadline = $merged_quote['prazo_entrega'];
         $deadline_text = '(' . sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline) . ')';
 
+        $meta_data = array_map(function ($quote) {
+            $offer = array_shift($quote['transportadoras']);
+
+            return [
+                'token' => $quote['token_oferta'],
+                'oferta' => $offer['oferta'],
+                'expedidor' => $quote['expedidor']
+            ];
+        }, $quotes);
+
         $rate = array(
             'id' => $this->id,
             'label' => "{$this->title} {$deadline_text}",
             'cost' => $merged_quote['preco_frete'],
+            'meta_data' => array('freterapido_quotes' => $meta_data),
         );
 
         $this->add_rate($rate);
+
+        // http://api-externa.freterapido.app/embarcador/v1/quote/ecommerce/357588111c1807b5/offer/340?token=ec1f103a2c7812ba686b46345c9c97eb
     }
 
     private function find_category($category_id) {
