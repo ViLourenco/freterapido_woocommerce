@@ -17,10 +17,10 @@ return array(
                             <div style="padding-top: 20px;">
                                 Configure abaixo a sua conta com os dados da loja para obter as cotações de frete através do Frete Rápido.
                                 </br>
-                                O token e as configurações dos Correios estão disponíveis no seu 
+                                O token e as configurações dos Correios estão disponíveis no seu
                                 <a href="https://freterapido.com/painel/" target="_blank">Painel administrativo</a>.
                                 </br>
-                                Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a 
+                                Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a
                                 <a href="https://github.com/freterapido/freterapido_woocommerce" target="_blank">documentação deste módulo no Github</a>.
                                 </br>
                             </div>
@@ -91,6 +91,14 @@ return array(
     ),
     'additional_price' => array(
         'title' => __('Additional cost of sending / posting (R$)', 'freterapido'),
+        'type' => 'text',
+        'description' => __('Will be added in the freight value', 'freterapido'),
+        'desc_tip' => true,
+        'default' => '0',
+        'placeholder' => '0.00',
+    ),
+    'additional_percentage' => array(
+        'title' => __('Additional cost percentage', 'freterapido'),
         'type' => 'text',
         'description' => __('Will be added in the freight value', 'freterapido'),
         'desc_tip' => true,
