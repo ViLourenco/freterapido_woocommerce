@@ -54,6 +54,9 @@ msgstr "Custo adicional de envio/postagem (R$)"
 msgid "Will be added in the freight value"
 msgstr "Será acrecido no valor do frete"
 
+msgid "Additional cost percentage"
+msgstr "Porcentagem de custo adicional"
+
 msgid "Integration Token with Frete Rápido"
 msgstr "Token de integração com o Frete Rápido"
 
