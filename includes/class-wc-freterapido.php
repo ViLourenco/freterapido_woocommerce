@@ -45,6 +45,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->limit = $this->get_option('limit');
         $this->additional_time = $this->get_option('additional_time', 0);
         $this->additional_price = $this->get_option('additional_price', 0);
+        $this->additional_percentage = $this->get_option('additional_percentage', 0);
         $this->token = $this->get_option('token');
 
         // Active logs.
@@ -219,6 +220,7 @@ class WC_Freterapido extends WC_Shipping_Method {
                 'codigo_plataforma' => 'woocomm26',
                 'custo_adicional' => $this->additional_price,
                 'prazo_adicional' => $this->additional_time,
+                'percentual_adicional' => $this->additional_percentage / 100,
             ]);
 
             $volumes = array_map(function ($volume) {
