@@ -53,6 +53,7 @@ if (!class_exists('WC_Freterapido_Main')) :
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-http.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-helpers.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-shipping.php';
+                include_once WOO_FR_PATH . 'includes/class-wc-freterapido-hire-shipping.php';
 
                 add_filter('woocommerce_shipping_methods', array($this, 'wcfreterapido_add_method'));
 
@@ -517,39 +518,38 @@ if (!class_exists('WC_Freterapido_Main')) :
         $settings = get_option('woocommerce_freterapido_settings');
         $address = $order->get_address('shipping');
 
-        $default_params = array(
-            'remetente' => array(
-                'cnpj' => $settings['cnpj']
-            ),
-            'destinatario' => array(
-                'cnpj_cpf' => WC_Freterapido_Helpers::fix_zip_code($order->billing_cpf),
-                'nome' => $order->get_formatted_shipping_full_name(),
-                'email' => $order->billing_email,
-                'telefone' => WC_Freterapido_Helpers::fix_zip_code($order->billing_phone),
-                'endereco' => array(
-                    'cep' => WC_Freterapido_Helpers::fix_zip_code($address['postcode']),
-                    'rua' => $address['address_1'],
-                    'bairro' => isset($address['neighborhood']) ? $address['neighborhood'] : '',
-                    'numero' => isset($address['number']) ? $address['number'] : ''
+        $hire_shipping = new WC_Freterapido_Hire_Shipping($settings['token']);
+        $hire_shipping
+            ->add_sender(array('cnpj' => $settings['cnpj']))
+            ->add_receiver(
+                array(
+                    'cnpj_cpf' => WC_Freterapido_Helpers::fix_zip_code($order->billing_cpf),
+                    'nome' => $order->get_formatted_shipping_full_name(),
+                    'email' => $order->billing_email,
+                    'telefone' => WC_Freterapido_Helpers::fix_zip_code($order->billing_phone),
+                    'endereco' => array(
+                        'cep' => WC_Freterapido_Helpers::fix_zip_code($address['postcode']),
+                        'rua' => $address['address_1'],
+                        'bairro' => isset($address['neighborhood']) ? $address['neighborhood'] : '',
+                        'numero' => isset($address['number']) ? $address['number'] : ''
+                    )
                 )
-            )
-        );
+            );
 
         $results = array();
 
         foreach ($item_meta as $item) {
-            $params = $default_params;
+            $dispatcher = array();
 
             if ($item['expedidor']) {
-                $params = array_merge(
-                    $params,
-                    array('expedidor' => $item['expedidor'])
-                );
+                $dispatcher = $item['expedidor'];
             }
 
             try {
-                $response = WC_Freterapido_Http::do_request("http://api-externa.freterapido.app/embarcador/v1/quote/ecommerce/{$item['token']}/offer/{$item['oferta']}?token={$settings['token']}", $params);
-                $results = array_merge($results, array_values($response['result']));
+                $response = $hire_shipping
+                    ->add_dispatcher($dispatcher)
+                    ->hire_quote($item['token'], $item['oferta']);
+                $results = array_merge($results, array_values($response));
             } catch (Exception $e) {
                 continue;
             }
