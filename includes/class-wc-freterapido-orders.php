@@ -47,13 +47,13 @@ class WC_Freterapido_Orders {
 	public function metabox_content( $post ) {
 	    $shippings = wc_get_order_item_meta($post->ID, 'freterapido_shippings') ?: array();
 
-        echo '<div><p><strong>' . __('Shipping codes contracted:', 'freterapido') . '</strong></p><table id="newmeta"><tbody>';
+        echo '<div><p><strong>' . _n('Shipping code contracted:', 'Shipping codes contracted:', count($shippings), 'freterapido') . '</strong></p><table id="newmeta"><tbody>';
         if (empty($shippings)) {
             echo '<tr><td>' . __('Waiting for status:', 'freterapido') . ' <b>' . __('Awaiting shipment', 'freterapido') . '</b></td></tr>';
         }
 
         foreach ($shippings as $shipping) {
-            echo "<tr><td>{$shipping}</td></tr>";
+            echo "<tr><td><a target='_blank' href='//freterapido.app/?id=" . substr($shipping, 1) . "#/rastreamento-carga'>{$shipping}</a></td></tr>";
         }
         echo    '</tbody></table></div>';
 	}
