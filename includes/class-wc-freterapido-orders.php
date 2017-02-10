@@ -53,7 +53,7 @@ class WC_Freterapido_Orders {
         }
 
         foreach ($shippings as $shipping) {
-            echo "<tr><td><a target='_blank' href='//freterapido.app/?id=" . substr($shipping, 1) . "#/rastreamento-carga'>{$shipping}</a></td></tr>";
+            echo "<tr><td><a target='_blank' href='//freterapido.com/?id=" . substr($shipping, 1) . "#/rastreamento-carga'>{$shipping}</a></td></tr>";
         }
         echo    '</tbody></table></div>';
 	}
