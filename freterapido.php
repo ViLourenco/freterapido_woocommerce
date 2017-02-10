@@ -469,11 +469,11 @@ if (!class_exists('WC_Freterapido_Main')) :
      * Register new status with ID "wc-misha-shipment" and label "Awaiting shipment"
      */
     function freterapido_register_awaiting_shipment_status() {
-        register_post_status( 'wc-freterapido-shipment', array(
-            'label'		=> 'Awaiting shipment',
+        register_post_status( 'wc-awaiting-shipment', array(
+            'label'		=> __('Awaiting shipment', 'freterapido'),
             'public'	=> true,
             'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-            'label_count'	=> _n_noop( 'Awaiting shipment <span class="count">(%s)</span>', 'Awaiting shipment <span class="count">(%s)</span>' )
+            'label_count'	=> _n_noop( 'Awaiting shipment <span class="count">(%s)</span>', 'Awaiting shipment <span class="count">(%s)</span>', 'freterapido' )
         ) );
     }
 
