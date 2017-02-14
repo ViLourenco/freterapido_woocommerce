@@ -48,7 +48,6 @@ if (!class_exists('WC_Freterapido_Main')) :
             // Checks with WooCommerce is installed.
             if (class_exists('WC_Integration')) {
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido.php';
-                include_once WOO_FR_PATH . 'includes/class-wc-freterapido-shipping-simulator.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-orders.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-http.php';
                 include_once WOO_FR_PATH . 'includes/class-wc-freterapido-helpers.php';
