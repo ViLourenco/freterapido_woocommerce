@@ -125,10 +125,9 @@ class WC_Freterapido extends WC_Shipping_Method {
         }
 
         $products = array_map(function ($item) {
-            $product = wc_get_product($item['product_id']);
-            $manufacturing_deadline = get_post_meta($product->id, 'manufacturing_deadline', true);
-            /** @var WC_Product_Simple $product */
+            /** @var WC_Product $product */
             $product = $item['data'];
+            $manufacturing_deadline = get_post_meta($product->id, 'manufacturing_deadline', true);
             /** @var WP_Term[] $product_categories */
             $product_categories = get_the_terms($product->id, 'product_cat');
 
@@ -190,7 +189,9 @@ class WC_Freterapido extends WC_Shipping_Method {
                 'origem' => $dispatcher,
                 'prazo_fabricacao' => $manufacturing_deadline
             );
-        }, $package['contents']);
+        }, array_filter($package['contents'], function ($item) {
+            return $item['data']->needs_shipping();
+        }));
 
         $chunks = array();
 
