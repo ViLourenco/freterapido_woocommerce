@@ -12,6 +12,7 @@
  */
 
 define('WOO_FR_PATH', plugin_dir_path(__FILE__));
+define('FR_API_URL', 'https://freterapido.com/api/external/');
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.

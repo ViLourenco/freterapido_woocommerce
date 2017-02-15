@@ -304,8 +304,6 @@ class WC_Freterapido extends WC_Shipping_Method {
             'meta_data' => array('freterapido_quotes' => $meta_data),
         );
 
-        $this->cost = $merged_quote['preco_frete'];
-
         $this->add_rate($rate);
     }
 

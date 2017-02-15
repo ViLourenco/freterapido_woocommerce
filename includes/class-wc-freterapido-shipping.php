@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WC_Freterapido_Shipping {
-    const API_URL = 'https://freterapido.com/api/external/embarcador/v1/quote-simulator';
-
     private $config;
     private $sender;
     private $receiver;
@@ -130,7 +128,7 @@ class WC_Freterapido_Shipping {
     }
 
     public function get_quote() {
-        $response = self::do_request(self::API_URL, $this->format_request());
+        $response = self::do_request(FR_API_URL . 'embarcador/v1/quote-simulator', $this->format_request());
 
         if ((int)$response['info']['http_code'] === 401) {
             throw new InvalidArgumentException();

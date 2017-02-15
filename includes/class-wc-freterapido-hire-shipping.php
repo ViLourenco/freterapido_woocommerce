@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WC_Freterapido_Hire_Shipping {
-    const API_URL = 'https://freterapido.com/api/external/embarcador/v1/quote/ecommerce/%s/offer/%s?token=%s';
-
     private $token;
     private $sender;
     private $receiver;
@@ -51,7 +49,7 @@ class WC_Freterapido_Hire_Shipping {
     }
 
     public function hire_quote($simulation_token, $offer_id) {
-        $api_url = sprintf(self::API_URL, $simulation_token, $offer_id, $this->token);
+        $api_url = sprintf(FR_API_URL . 'embarcador/v1/quote/ecommerce/%s/offer/%s?token=%s', $simulation_token, $offer_id, $this->token);
 
         $response = WC_Freterapido_Http::do_request($api_url, $this->format_request());
 
