@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WC_Freterapido_Hire_Shipping {
-    const API_URL = 'http://api-externa.freterapido.app/embarcador/v1/quote/ecommerce/%s/offer/%s?token=%s';
+    const API_URL = 'https://freterapido.com/api/external/embarcador/v1/quote/ecommerce/%s/offer/%s?token=%s';
 
     private $token;
     private $sender;

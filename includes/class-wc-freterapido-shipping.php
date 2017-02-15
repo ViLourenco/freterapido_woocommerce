@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WC_Freterapido_Shipping {
-    const API_URL = 'http://api-externa.freterapido.app/embarcador/v1/quote-simulator';
+    const API_URL = 'https://freterapido.com/api/external/embarcador/v1/quote-simulator';
 
     private $config;
     private $sender;
