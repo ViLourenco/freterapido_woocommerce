@@ -221,7 +221,7 @@ class WC_Freterapido extends WC_Shipping_Method {
             $dispatcher = $chunk[0]['origem'];
             $shipping = new WC_Freterapido_Shipping([
                 'token' => $this->token,
-                'codigo_plataforma' => 'woocomm26',
+                'codigo_plataforma' => '58a59fbf4',
                 'custo_adicional' => $this->additional_price,
                 'prazo_adicional' => $this->additional_time,
                 'percentual_adicional' => $this->additional_percentage / 100,
