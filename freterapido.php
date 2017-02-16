@@ -557,7 +557,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             }
         }
 
-        wc_add_order_item_meta($order_id, 'freterapido_shippings', array_values($results));
+        wc_update_order_item_meta($order_id, 'freterapido_shippings', array_values($results));
     }
 
     add_action( 'woocommerce_order_status_awaiting-shipment', 'order_awaiting_shipment' );
