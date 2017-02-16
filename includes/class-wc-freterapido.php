@@ -286,7 +286,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         $merged_quote['prazo_entrega'] += $manufacturing_deadline;
 
         $deadline = $merged_quote['prazo_entrega'];
-        $deadline_text = '(' . sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline) . ')';
+        $deadline_text = sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline);
 
         $meta_data = array_map(function ($quote) {
             $offer = array_shift($quote['transportadoras']);
@@ -300,7 +300,7 @@ class WC_Freterapido extends WC_Shipping_Method {
 
         $rate = array(
             'id' => $this->id,
-            'label' => "{$this->title} {$deadline_text}",
+            'label' => "{$deadline_text}",
             'cost' => $merged_quote['preco_frete'],
             'meta_data' => array('freterapido_quotes' => $meta_data),
         );
