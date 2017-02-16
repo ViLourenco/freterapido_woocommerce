@@ -154,7 +154,7 @@ if (!class_exists('WC_Freterapido_Main')) :
         <div class="form-field">
             <label for="term_meta[fr_origin_cep]"><?php _e('CEP', 'freterapido'); ?></label>
             <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" maxlength="8" pattern="[0-9]{8}">
-            <p class="description"><?php _e('Apenas Números', 'freterapido'); ?></p>
+            <p class="description"><?php _e('Only numbers', 'freterapido'); ?></p>
         </div>
         <div class="form-field">
             <label for="term_meta[fr_origin_rua]"><?php _e('Rua', 'freterapido'); ?></label>
@@ -175,7 +175,8 @@ if (!class_exists('WC_Freterapido_Main')) :
         <h2>Empresa:</h2>
         <div class="form-field">
             <label for="term_meta[fr_origin_cnpj]"><?php _e('CNPJ', 'freterapido'); ?></label>
-            <input type="text" name="term_meta[fr_origin_cnpj]" id="term_meta[fr_origin_cnpj]">
+            <input type="text" name="term_meta[fr_origin_cnpj]" id="term_meta[fr_origin_cnpj]" pattern="[0-9]{14}" maxlength="14">
+            <p class="description"><?php _e('Only numbers', 'freterapido'); ?></p>
         </div>
         <div class="form-field">
             <label for="term_meta[fr_origin_razao_social]"><?php _e('Razão Social', 'freterapido'); ?></label>
@@ -248,12 +249,12 @@ if (!class_exists('WC_Freterapido_Main')) :
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_cep]" id="term_meta[fr_origin_cep]" value="<?php echo esc_attr($term_meta['fr_origin_cep']) ? esc_attr($term_meta['fr_origin_cep']) : ''; ?>" maxlength="8" pattern="[0-9]{8}">
-                    <p class="description"><?php _e('Apenas Números', 'text_domain'); ?></p>
+                    <p class="description"><?php _e('Only numbers', 'freterapido'); ?></p>
                 </td>
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_rua]"><?php _e('Rua', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_rua]"><?php _e('Rua', 'freterapido'); ?></label>
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_rua]" id="term_meta[fr_origin_rua]" value="<?php echo esc_attr($term_meta['fr_origin_rua']) ? esc_attr($term_meta['fr_origin_rua']) : ''; ?>">
@@ -261,7 +262,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_numero]"><?php _e('Número', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_numero]"><?php _e('Número', 'freterapido'); ?></label>
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_numero]" id="term_meta[fr_origin_numero]" value="<?php echo esc_attr($term_meta['fr_origin_numero']) ? esc_attr($term_meta['fr_origin_numero']) : ''; ?>">
@@ -269,7 +270,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_bairro]"><?php _e('Bairro', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_bairro]"><?php _e('Bairro', 'freterapido'); ?></label>
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_bairro]" id="term_meta[fr_origin_bairro]" value="<?php echo esc_attr($term_meta['fr_origin_bairro']) ? esc_attr($term_meta['fr_origin_bairro']) : ''; ?>">
@@ -277,7 +278,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_complemento]"><?php _e('Complemento', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_complemento]"><?php _e('Complemento', 'freterapido'); ?></label>
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_complemento]" id="term_meta[fr_origin_complemento]" value="<?php echo esc_attr($term_meta['fr_origin_complemento']) ? esc_attr($term_meta['fr_origin_complemento']) : ''; ?>">
@@ -293,15 +294,16 @@ if (!class_exists('WC_Freterapido_Main')) :
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_cnpj]"><?php _e('CNPJ', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_cnpj]"><?php _e('CNPJ', 'freterapido'); ?></label>
                 </th>
                 <td>
-                    <input type="text" name="term_meta[fr_origin_cnpj]" id="term_meta[fr_origin_cnpj]" value="<?php echo esc_attr($term_meta['fr_origin_cnpj']) ? esc_attr($term_meta['fr_origin_cnpj']) : ''; ?>">
+                    <input type="text" name="term_meta[fr_origin_cnpj]" id="term_meta[fr_origin_cnpj]" pattern="[0-9]{14}" maxlength="14" value="<?php echo esc_attr($term_meta['fr_origin_cnpj']) ? esc_attr($term_meta['fr_origin_cnpj']) : ''; ?>">
+                    <p class="description"><?php _e('Only numbers', 'freterapido'); ?></p>
                 </td>
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_razao_social]"><?php _e('Razão Social', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_razao_social]"><?php _e('Razão Social', 'freterapido'); ?></label>
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_razao_social]" id="term_meta[fr_origin_razao_social]" value="<?php echo esc_attr($term_meta['fr_origin_razao_social']) ? esc_attr($term_meta['fr_origin_razao_social']) : ''; ?>">
@@ -309,7 +311,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             </tr>
             <tr class="form-field">
                 <th scope="row" valign="top">
-                    <label for="term_meta[fr_origin_inscricao_estadual]"><?php _e('Inscrição Estadual', 'text_domain'); ?></label>
+                    <label for="term_meta[fr_origin_inscricao_estadual]"><?php _e('Inscrição Estadual', 'freterapido'); ?></label>
                 </th>
                 <td>
                     <input type="text" name="term_meta[fr_origin_inscricao_estadual]" id="term_meta[fr_origin_inscricao_estadual]" value="<?php echo esc_attr($term_meta['fr_origin_inscricao_estadual']) ? esc_attr($term_meta['fr_origin_inscricao_estadual']) : ''; ?>">

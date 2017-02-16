@@ -41,7 +41,12 @@ return array(
         'title' => 'CNPJ',
         'type' => 'text',
         'description' => __('CNPJ from your store', 'freterapido'),
-        'desc_tip' => true
+        'desc_tip' => true,
+        'placeholder' => __('Only numbers', 'freterapido'),
+        'custom_attributes' => array(
+            'pattern' => '[0-9]{14}',
+            'maxlength' => 14
+        )
     ),
     'results' => array(
         'title' => __('Results', 'freterapido'),
