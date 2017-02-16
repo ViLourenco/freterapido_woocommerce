@@ -538,7 +538,7 @@ if (!class_exists('WC_Freterapido_Main')) :
                 )
             );
 
-        $results = array();
+        $results = wc_get_order_item_meta($order_id, 'freterapido_shippings') ?: array();
 
         foreach ($item_meta as $item) {
             $dispatcher = array();
@@ -555,6 +555,10 @@ if (!class_exists('WC_Freterapido_Main')) :
             } catch (Exception $e) {
                 continue;
             }
+        }
+
+        if (count($results) == 0) {
+            return;
         }
 
         wc_update_order_item_meta($order_id, 'freterapido_shippings', array_values($results));
