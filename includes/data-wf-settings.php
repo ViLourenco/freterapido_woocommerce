@@ -108,7 +108,7 @@ return array(
         'description' => __('Will be added in the freight value', 'freterapido'),
         'desc_tip' => true,
         'default' => '0',
-        'placeholder' => '0.00',
+        'placeholder' => 'ex: 10',
     ),
     'Dimensões padrão' => array(
         'title' => __('Default dimensions', 'freterapido'),
