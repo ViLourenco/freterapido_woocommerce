@@ -129,7 +129,7 @@ class WC_Freterapido extends WC_Shipping_Method {
             $product = $item['data'];
             $manufacturing_deadline = get_post_meta($product->id, 'manufacturing_deadline', true);
             /** @var WP_Term[] $product_categories */
-            $product_categories = get_the_terms($product->id, 'product_cat');
+            $product_categories = get_the_terms($product->id, 'product_cat') ?: array();
 
             $find_fr_category = function (WP_Term $category) {
                 return $this->find_category($category->term_id);
