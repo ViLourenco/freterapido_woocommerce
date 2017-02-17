@@ -149,6 +149,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             </select>
         </div>
         <h2>Dados de Origem:</h2>
+        <p><b>Os dados de origem somente serão usados se todos os campos do <i>Endereço</i> (exceto o complemento), e da <i>Empresa</i>, estiverem preenchidos.</b></p>
         <span>Dados de endereço específicos por categoria</span>
         <h2>Endereço:</h2>
         <div class="form-field">
@@ -232,6 +233,8 @@ if (!class_exists('WC_Freterapido_Main')) :
                 </th>
                 <td>
                     <h2>Dados de Origem:</h2>
+                    <p><b>Os dados de origem somente serão usados se todos os campos do <i>Endereço</i> (exceto o complemento), e da <i>Empresa</i>, estiverem preenchidos.</b></p>
+                    <br>
                     <span>Dados de endereço específicos por categoria</span>
                 </td>
             </tr>

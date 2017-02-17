@@ -148,7 +148,13 @@ class WC_Freterapido extends WC_Shipping_Method {
                 $dispatcher = [];
                 $product_category = array_shift($fr_categories);
                 $product_category_fr_data = get_option("taxonomy_" . $product_category->term_id);
-                $has_dispatcher = $product_category_fr_data['fr_origin_cep'] && $product_category_fr_data['fr_origin_rua'] && $product_category_fr_data['fr_origin_numero'] && $product_category_fr_data['fr_origin_bairro'];
+                $has_dispatcher = $product_category_fr_data['fr_origin_cep'] &&
+                    $product_category_fr_data['fr_origin_rua'] &&
+                    trim($product_category_fr_data['fr_origin_numero']) != '' &&
+                    $product_category_fr_data['fr_origin_bairro'] &&
+                    $product_category_fr_data['fr_origin_cnpj'] &&
+                    $product_category_fr_data['fr_origin_razao_social'] &&
+                    $product_category_fr_data['fr_origin_inscricao_estadual'];
 
                 if ($product_category_fr_data && ($has_dispatcher)) {
                     $dispatcher = array(
