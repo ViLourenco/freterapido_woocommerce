@@ -55,7 +55,7 @@ msgid "Will be added in the freight value"
 msgstr "Será acrecido no valor do frete"
 
 msgid "Additional cost percentage"
-msgstr "Porcentagem de custo adicional"
+msgstr "Porcentagem de custo adicional (%)"
 
 msgid "Integration Token with Frete Rápido"
 msgstr "Token de integração com o Frete Rápido"
@@ -73,13 +73,13 @@ msgid "They will be used if the dimensions of the products have not been informe
 msgstr "Serão usadas caso as dimensões dos produtos não tenham sido informadas <b>(em metros)</b>"
 
 msgid "Minimum length"
-msgstr "Comprimento mínimo"
+msgstr "Comprimento padrão (cm)"
 
 msgid "Minimum width"
-msgstr "Largura mínima"
+msgstr "Largura  padrão (cm)"
 
 msgid "Minimum height"
-msgstr "Altura mínima"
+msgstr "Altura  padrão (cm)"
 
 msgid "Shipping codes contracted:"
 msgstr "Códigos dos fretes contratados:"
