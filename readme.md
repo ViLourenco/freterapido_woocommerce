@@ -1,10 +1,10 @@
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 ===
 
-### Módulo para plataforma 	WooCommerce
-Versão do módulo: 1.0.0
+### Módulo para plataforma WooCommerce
 
-Compatibilidade com WooCommerce: 2.6x
+Versão do módulo: 1.0.0
+Compatibilidade com WooCommerce: **2.6x**
 
 Links úteis:
 
@@ -17,64 +17,51 @@ Links úteis:
 
 >**ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
 
-----------
-####Instalação manual
 
-- [Baixe aqui a última versão][4], descompacte o conteúdo do arquivo zip dentro da "wp-content/plugins", ou instale usando o instalador de plugins do WordPress.
+- [Baixe aqui a última versão][4], descompacte o conteúdo do arquivo zip dentro da pasta "wp-content/plugins", ou instale usando o instalador de plugins do WordPress.
 - Ative o plugin.
 
-![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;)")
+![Instalando o plugin](https://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/plugin_install.gif "Procedimento de Instalação")
+
+![Mensagem de atenção para backup da loja](https://freterapido.com/imgs/woocommerce_2.6_doc/attention_2.png "#FicaDica ;)")
 
 ----------
 
 ### Configurações
 
-É necessário realizar algumas configurações na sua loja para obter total usabilidade do módulo **Frete Rápido**.
+É necessário realizar algumas configurações na sua loja para obter total usabilidade do plugin **Frete Rápido**.
 
-- As informações sobre o remetente das mercadorias são muito importantes para sabermos qual a origem dos seus fretes. Acesse a área administrativa da sua loja e informe os dados de origem em: System > Settings > Shipping Settings > Origin.
+- Cada categoria da sua loja precisa estar relacionada com as categorias do Frete Rápido. Você pode configurar isso em: **Produtos** > **Categorias**.
 
-![Sessão de dados da origem](https://freterapido.com/imgs/magento_doc/origin_settings.PNG "Dados de origem")
-
-
-> **Obs:** É importante informar todos os campos corretamente.
-
-- É necessário relacionar cada categoria da sua loja com as categorias do Frete Rápido em: Catalog > Manage Categories > Categoria no Frete Rápido.
-
-![Configuração de categorias ](https://freterapido.com/imgs/magento_doc/categories_settings.PNG "Configuração de categorias")
+![Configuração de categorias ](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/categoria_edicao.png "Configuração de categorias")
 
 > **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
->
+
 > **Exemplo 1**: Moda feminina -> Vestuário
 
 > **Exemplo 2**: CDs -> CD / DVD / Blu-Ray
 
 > **Exemplo 3**: Violões -> Instrumento Musical
 
-- Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > Frete Rápido.
+- Para calcular o frete precisamos saber as medidas das embalagens de cada produto e peso. Você precisa informá-los nas configurações do seu produto.
 
-![Configurando as medidas das embalagens dos produtos](https://freterapido.com/imgs/magento_doc/iten_setting.PNG "Configuração de medidas dos produtos")
+> **Obs:** Você também pode configurar o prazo de fabricação do produto, caso haja. Ele será acrescido no prazo de entrega do frete.
 
-> **Obs:** As medidas devem considerar apenas as dimensões da embalagem pronta para envio/postagem.
+![Configurando as medidas das embalagens e peso dos produtos](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/product_settings.gif "Configuração das informações dos produtos")
+
+> **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
+> É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco, e, neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin.
+> Nós recomendamos que cada produto tenha suas próprias configurações de peso e dimensões para que você tenha seu frete cotado com mais precisão.
 
 #### Configurações do módulo:
 
-- Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
+- Agora, configure a nova forma de entrega: **WooCommerce** > **Configurações** > **Entrega** > **Frete Rápido** (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](http://freterapido.com/imgs/magento_doc/extension_settings.PNG?v=1 "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/configuracao_plugin.png "Configurações do módulo")
 
-- **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
+- **Habilitar/Desabilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
-
-- **Inscrição Estadual:** Inscrição estadual da sua empresa, caso seja isento, informar “ISENTO”.
-
-- **Formato de Peso:** Define o formato de peso utilizado pela loja em Quilos ou Gramas.
-
-- **Correios - Valor Declarado:** Habilita ou desabilita o serviço de “Valor Declarado” com os Correios, definindo se os valores dos produtos serão declarados.
-
-- **Correios - Mão Própria:** Habilita ou desabilita o serviço de “Mão Própria”.
-
-- **Correios - Aviso de Recebimento:** Habilita ou desabilita o serviço de “Aviso de Recebimento”.
 
 - **Resultados:** Define como deseja receber as cotações.
 
@@ -83,6 +70,14 @@ Links úteis:
 - **Prazo adicional de envio/postagem (dias):** Permitir inserir a quantidade de dias necessário para despacho das mercadorias. Esse valor será acrescido ao prazo do frete.
 
 - **Custo adicional de envio/postagem (R$):** Permite informar, caso haja, um custo adicional de despacho das mercadorias. Esse valor será acrescido ao valor do frete.
+
+- **Percentual adicional (%):** Permite informar, caso haja, uma porcentagem adicional de custos referentes à operação do frete. Esse valor será acrescido ao valor do frete.
+
+- **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
+
+- **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
+
+- **Altura padrão (cm):** Define a altura padrão dos produtos que não tiverem altura informada.
 
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 
@@ -95,7 +90,7 @@ Links úteis:
 --------
 
 ###Contribuições
-Encontrou algum bug ou tem sugestões de melhorias no código? Sencacional! Não se acanhe, nos envie um pull request com a sua alteração e ajude este projeto a ficar ainda melhor.
+Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não se acanhe, nos envie um *pull request* com a sua alteração e ajude este projeto a ficar ainda melhor.
 
 1. Faça um "Fork"
 2. Crie seu branch para a funcionalidade: ` $ git checkout -b feature/nova-funcionalidade`
@@ -110,7 +105,7 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sencacional! Não
 
 
 [1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
-[2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
+[2]: https://freterapido.com/painel/?origin=github_woocommerce_freterapido "Painel do Frete Rápido"
 [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
-[4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
-[5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
+[4]: https://github.com/freterapido/freterapido_woocommerce_2.6/archive/master.zip
+[5]: https://github.com/freterapido/freterapido_woocommerce/blob/master/LICENSE
