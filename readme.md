@@ -4,6 +4,7 @@
 ### Módulo para plataforma WooCommerce
 
 Versão do módulo: 1.0.0
+
 Compatibilidade com WooCommerce: **2.6x**
 
 Links úteis:
