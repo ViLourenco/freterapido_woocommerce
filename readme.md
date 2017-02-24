@@ -4,7 +4,6 @@
 ### Módulo para plataforma WooCommerce
 
 Versão do módulo: 1.0.0
-
 Compatibilidade com WooCommerce: **2.6.x**
 
 Links úteis:
@@ -32,29 +31,7 @@ Links úteis:
 
 É necessário realizar algumas configurações na sua loja para obter total usabilidade do plugin **Frete Rápido**.
 
-- Cada categoria da sua loja precisa estar relacionada com as categorias do Frete Rápido. Você pode configurar isso em: **Produtos** > **Categorias**.
-
-![Configuração de categorias ](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/categoria_edicao.png "Configuração de categorias")
-
-> **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
-
-> **Exemplo 1**: Moda feminina -> Vestuário
-
-> **Exemplo 2**: CDs -> CD / DVD / Blu-Ray
-
-> **Exemplo 3**: Violões -> Instrumento Musical
-
-- Para calcular o frete precisamos saber as medidas das embalagens de cada produto e peso. Você precisa informá-los nas configurações do seu produto.
-
-> **Obs:** Você também pode configurar o prazo de fabricação do produto, caso haja. Ele será acrescido no prazo de entrega do frete.
-
-![Configurando as medidas das embalagens e peso dos produtos](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/product_settings.gif "Configuração das informações dos produtos")
-
-> **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
-> É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco, e, neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin.
-> Nós recomendamos que cada produto tenha suas próprias configurações de peso e dimensões para que você tenha seu frete cotado com mais precisão.
-
-#### Configurações do módulo:
+####1. Configurações do módulo:
 
 - Agora, configure a nova forma de entrega: **WooCommerce** > **Configurações** > **Entrega** > **Frete Rápido** (conforme imagem abaixo).
 
@@ -81,6 +58,31 @@ Links úteis:
 - **Altura padrão (cm):** Define a altura padrão dos produtos que não tiverem altura informada.
 
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
+
+####2. Medidas, peso e prazo:
+
+- Para calcular o frete precisamos saber as medidas das embalagens de cada produto e peso. Você precisa informá-los nas configurações do seu produto.
+
+> **Obs:** Você também pode configurar o prazo de fabricação do produto, caso haja. Ele será acrescido no prazo de entrega do frete.
+
+![Configurando as medidas das embalagens e peso dos produtos](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/product_settings.gif "Configuração das informações dos produtos")
+
+> **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
+> É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco, e, neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin.
+> Nós recomendamos que cada produto tenha suas próprias configurações de peso e dimensões para que você tenha seu frete cotado com mais precisão.
+
+####3. Categorias
+- Cada categoria da sua loja precisa estar relacionada com as categorias do Frete Rápido. Você pode configurar isso em: **Produtos** > **Categorias**.
+
+![Configuração de categorias ](http://freterapido.com/imgs/woocommerce_2.6_doc/freterapido/categoria_edicao.png "Configuração de categorias")
+
+> **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
+
+> **Exemplo 1**: Moda feminina -> Vestuário
+
+> **Exemplo 2**: CDs -> CD / DVD / Blu-Ray
+
+> **Exemplo 3**: Violões -> Instrumento Musical
 
 --------
 
