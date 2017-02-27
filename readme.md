@@ -90,6 +90,12 @@ Links úteis:
 1. Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 2. Esse módulo atende cotações apenas para destinatários Pessoa Física.
 
+----------
+
+### Cálculo do frete na página do produto
+
+Nós desenvolvemos um plugin específico para calcular o frete na página do produto. Para instalá-lo, basta acessar sua documentação em [freterapido_woocommerce_2.6_shipping_product_page][6].
+
 --------
 
 ###Contribuições
@@ -107,8 +113,8 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 [MIT][5]
 
 
-[1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
 [2]: https://freterapido.com/painel/?origin=github_woocommerce_freterapido "Painel do Frete Rápido"
 [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
 [4]: https://github.com/freterapido/freterapido_woocommerce_2.6/archive/master.zip
 [5]: https://github.com/freterapido/freterapido_woocommerce/blob/master/LICENSE
+[6]: https://github.com/freterapido/freterapido_woocommerce_2.6_shipping_product_page
