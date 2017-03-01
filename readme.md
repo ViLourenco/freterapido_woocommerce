@@ -95,7 +95,7 @@ Links úteis:
 
 ### Cálculo do frete na página do produto
 
-Nós desenvolvemos um plugin específico para calcular o frete na página do produto. Para instalá-lo, basta acessar sua documentação em [freterapido_woocommerce_2.6_shipping_product_page][6].
+Para cálculo do frete na página do produto, você precisa utilizar o plugin específico do Frete Rápido. Para instalá-lo, basta acessar sua documentação em [freterapido_woocommerce_2.6_shipping_product_page][6].
 
 --------
 
