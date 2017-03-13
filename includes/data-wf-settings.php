@@ -21,7 +21,7 @@ return array(
                                 <a href="https://freterapido.com/painel/" target="_blank">Painel administrativo</a>.
                                 </br>
                                 Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a
-                                <a href="https://github.com/freterapido/freterapido_woocommerce" target="_blank">documentação deste módulo no Github</a>.
+                                <a href="https://github.com/freterapido/freterapido_woocommerce_2.6" target="_blank">documentação deste módulo no Github</a>.
                                 </br>
                             </div>
                         </div>
