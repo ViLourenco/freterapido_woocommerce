@@ -43,9 +43,6 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->cnpj = $this->get_option('cnpj');
         $this->results = $this->get_option('results');
         $this->limit = $this->get_option('limit');
-        $this->additional_time = $this->get_option('additional_time', 0);
-        $this->additional_price = $this->get_option('additional_price', 0);
-        $this->additional_percentage = $this->get_option('additional_percentage', 0);
         $this->token = $this->get_option('token');
 
         // Active logs.
@@ -228,9 +225,6 @@ class WC_Freterapido extends WC_Shipping_Method {
             $shipping = new WC_Freterapido_Shipping([
                 'token' => $this->token,
                 'codigo_plataforma' => '58a59fbf4',
-                'custo_adicional' => $this->additional_price,
-                'prazo_adicional' => $this->additional_time,
-                'percentual_adicional' => $this->additional_percentage / 100,
             ]);
 
             $volumes = array_map(function ($volume) {
@@ -275,8 +269,7 @@ class WC_Freterapido extends WC_Shipping_Method {
                 $carry['prazo_entrega'] = $offer['prazo_entrega'];
             }
 
-            $carry['preco_frete'] += $offer['preco_frete'];
-            $carry['custo_frete'] += $offer['custo_frete'];
+            $carry['preco_final'] += $offer['preco_final'];
 
             return $carry;
         });
@@ -307,7 +300,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         $rate = array(
             'id' => $this->id,
             'label' => "{$deadline_text}",
-            'cost' => $merged_quote['preco_frete'],
+            'cost' => $merged_quote['preco_final'],
             'meta_data' => array('freterapido_quotes' => $meta_data),
         );
 
