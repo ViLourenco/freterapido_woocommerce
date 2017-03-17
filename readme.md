@@ -46,12 +46,6 @@ Links úteis:
 
 - **Limite:** Permitir limitar, até 20, a quantidade de cotações que deseja apresentar ao visitante.
 
-- **Prazo adicional de envio/postagem (dias):** Permitir inserir a quantidade de dias necessário para despacho das mercadorias. Esse valor será acrescido ao prazo do frete.
-
-- **Custo adicional de envio/postagem (R$):** Permite informar, caso haja, um custo adicional de despacho das mercadorias. Esse valor será acrescido ao valor do frete.
-
-- **Percentual adicional (%):** Permite informar, caso haja, uma porcentagem adicional de custos referentes à operação do frete. Esse valor será acrescido ao valor do frete.
-
 - **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
 
 - **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
