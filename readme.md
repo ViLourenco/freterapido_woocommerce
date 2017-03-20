@@ -36,7 +36,7 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: **WooCommerce** > **Configurações** > **Entrega** > **Frete Rápido** (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/configuracao_plugin.png "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/configuracao_plugin_2.png "Configurações do módulo")
 
 - **Habilitar/Desabilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 
