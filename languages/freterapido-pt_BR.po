@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2017-02-03 16:28-0200\n"
-"PO-Revision-Date: 2017-02-17 15:01-0200\n"
+"PO-Revision-Date: 2017-03-13 15:41-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,21 +41,6 @@ msgstr "Limite"
 
 msgid "Choose a result limit"
 msgstr "Escolha um limite de resultados"
-
-msgid "Additional Delivery period / post (days)"
-msgstr "Prazo adicional de envio/postagem (dias)"
-
-msgid "Will be added within the freight deadline"
-msgstr "Será acrecido no prazo do frete"
-
-msgid "Additional cost of sending / posting (R$)"
-msgstr "Custo adicional de envio/postagem (R$)"
-
-msgid "Will be added in the freight value"
-msgstr "Será acrecido no valor do frete"
-
-msgid "Additional cost percentage"
-msgstr "Percentual adicional (%)"
 
 msgid "Integration Token with Frete Rápido"
 msgstr "Token de integração com o Frete Rápido"

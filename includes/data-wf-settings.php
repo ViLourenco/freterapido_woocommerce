@@ -86,30 +86,6 @@ return array(
         'desc_tip' => true,
         'default' => 'yes'
     ),
-    'additional_time' => array(
-        'title' => __('Additional Delivery period / post (days)', 'freterapido'),
-        'type' => 'text',
-        'description' => __('Will be added within the freight deadline', 'freterapido'),
-        'desc_tip' => true,
-        'default' => '0',
-        'placeholder' => '0'
-    ),
-    'additional_price' => array(
-        'title' => __('Additional cost of sending / posting (R$)', 'freterapido'),
-        'type' => 'text',
-        'description' => __('Will be added in the freight value', 'freterapido'),
-        'desc_tip' => true,
-        'default' => '0',
-        'placeholder' => '0.00',
-    ),
-    'additional_percentage' => array(
-        'title' => __('Additional cost percentage', 'freterapido'),
-        'type' => 'text',
-        'description' => __('Will be added in the freight value', 'freterapido'),
-        'desc_tip' => true,
-        'default' => '0',
-        'placeholder' => 'ex: 10',
-    ),
     'Dimensões padrão' => array(
         'title' => __('Default dimensions', 'freterapido'),
         'type' => 'title',
