@@ -269,7 +269,8 @@ class WC_Freterapido extends WC_Shipping_Method {
                 $carry['prazo_entrega'] = $offer['prazo_entrega'];
             }
 
-            $carry['preco_final'] += $offer['preco_final'];
+            $carry['preco_frete'] += $offer['preco_frete'];
+            $carry['custo_frete'] += $offer['custo_frete'];
 
             return $carry;
         });
@@ -300,7 +301,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         $rate = array(
             'id' => $this->id,
             'label' => "{$deadline_text}",
-            'cost' => $merged_quote['preco_final'],
+            'cost' => $merged_quote['preco_frete'],
             'meta_data' => array('freterapido_quotes' => $meta_data),
         );
 
