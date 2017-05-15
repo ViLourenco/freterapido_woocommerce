@@ -44,6 +44,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->results = $this->get_option('results');
         $this->limit = $this->get_option('limit');
         $this->token = $this->get_option('token');
+        $this->shipping_cheap_free = $this->get_option('shipping_cheap_free');
 
         // Active logs.
         if ('yes' == $this->debug) {
@@ -304,6 +305,11 @@ class WC_Freterapido extends WC_Shipping_Method {
             'cost' => $merged_quote['preco_frete'],
             'meta_data' => array('freterapido_quotes' => $meta_data),
         );
+
+        if ($this->shipping_cheap_free == 'yes') {
+            $rate['label'] .= ': Frete Grátis';
+            $rate['cost'] = 0;
+        }
 
         $this->add_rate($rate);
     }

@@ -86,6 +86,12 @@ return array(
         'desc_tip' => true,
         'default' => 'yes'
     ),
+    'shipping_cheap_free' => array(
+        'title' => __('Exibir Frete Grátis no frete mais barato', 'freterapido'),
+        'type' => 'checkbox',
+        'label' => __('Enable', 'freterapido'),
+        'default' => 'no',
+    ),
     'Dimensões padrão' => array(
         'title' => __('Default dimensions', 'freterapido'),
         'type' => 'title',
