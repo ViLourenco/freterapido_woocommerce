@@ -87,7 +87,7 @@ return array(
         'default' => 'yes'
     ),
     'shipping_cheap_free' => array(
-        'title' => __('Exibir Frete Grátis no frete mais barato', 'freterapido'),
+        'title' => __('Show Free Shipping on Cheapest Shipping', 'freterapido'),
         'type' => 'checkbox',
         'label' => __('Enable', 'freterapido'),
         'default' => 'no',
