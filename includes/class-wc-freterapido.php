@@ -260,58 +260,85 @@ class WC_Freterapido extends WC_Shipping_Method {
             }
         }
 
-        $merged_quote = array_reduce($quotes, function ($carry, $item) {
-            $offer = array_shift($item['transportadoras']);
-            if (!$carry) {
-                return $offer;
-            }
-
-            if ($offer['prazo_entrega'] > $carry['prazo_entrega']) {
-                $carry['prazo_entrega'] = $offer['prazo_entrega'];
-            }
-
-            $carry['preco_frete'] += $offer['preco_frete'];
-            $carry['custo_frete'] += $offer['custo_frete'];
-
-            return $carry;
-        });
-
-        $manufacturing_deadline = array_reduce($products, function ($carry, $product) {
-            if ($carry < $product['prazo_fabricacao']) {
-                return (int) $product['prazo_fabricacao'];
-            }
-
-            return $carry;
-        }, 0);
-
-        $merged_quote['prazo_entrega'] += $manufacturing_deadline;
-
-        $deadline = $merged_quote['prazo_entrega'];
-        $deadline_text = sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline);
-
-        $meta_data = array_map(function ($quote) {
-            $offer = array_shift($quote['transportadoras']);
-
-            return [
-                'token' => $quote['token_oferta'],
-                'oferta' => $offer['oferta'],
-                'expedidor' => $quote['expedidor']
-            ];
-        }, $quotes);
-
-        $rate = array(
-            'id' => $this->id,
-            'label' => "{$deadline_text}",
-            'cost' => $merged_quote['preco_frete'],
-            'meta_data' => array('freterapido_quotes' => $meta_data),
-        );
-
-        if ($this->shipping_cheap_free == 'yes') {
-            $rate['label'] .= ': Frete Grátis';
-            $rate['cost'] = 0;
+        if (count($quotes) == 0) {
+            return;
         }
 
-        $this->add_rate($rate);
+        // Transforma as ofertas das cotações em $quotes em novas cotações, ficando uma oferta por origem e por cotação
+        // ex:
+        // 1 => [oferta1, oferta2, oferta3] -----> 1 => [oferta1], 2 => [oferta2], 3 => [oferta3]
+        // 1 => [oferta1, oferta2], 2 => [oferta1, oferta2] -----> 1 => [oferta1, oferta1], 2 => [oferta2, oferta2]
+        $new_quotes = [];
+
+        // Limita a quantidade das novas cotações pela quantidade mínima de ofertas
+        $min_number_offers = array_reduce($quotes, function ($carry, $item) {
+            return count($item['transportadoras']) > $carry ? count($item['transportadoras']) : $carry;
+        }, 0);
+
+        // Faz a transformação das cotações em novas
+        foreach (range(0, $min_number_offers - 1) as $index) {
+            $new_quotes[] = array_map(function ($quote) use ($index) {
+                $quote['transportadoras'] = [$quote['transportadoras'][$index]];
+
+                return $quote;
+            }, $quotes);
+        }
+
+        foreach ($new_quotes as $key => $quotes) {
+            $merged_quote = array_reduce($quotes, function ($carry, $item) {
+                $offer = array_shift($item['transportadoras']);
+
+                if (!$carry) {
+                    return $offer;
+                }
+
+                if ($offer['prazo_entrega'] > $carry['prazo_entrega']) {
+                    $carry['prazo_entrega'] = $offer['prazo_entrega'];
+                }
+
+                $carry['preco_frete'] += $offer['preco_frete'];
+                $carry['custo_frete'] += $offer['custo_frete'];
+
+                return $carry;
+            });
+
+            $manufacturing_deadline = array_reduce($products, function ($carry, $product) {
+                if ($carry < $product['prazo_fabricacao']) {
+                    return (int)$product['prazo_fabricacao'];
+                }
+
+                return $carry;
+            }, 0);
+
+            $merged_quote['prazo_entrega'] += $manufacturing_deadline;
+
+            $deadline = $merged_quote['prazo_entrega'];
+            $deadline_text = sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline);
+
+            $meta_data = array_map(function ($quote) {
+                $offer = array_shift($quote['transportadoras']);
+
+                return [
+                    'token' => $quote['token_oferta'],
+                    'oferta' => $offer['oferta'],
+                    'expedidor' => $quote['expedidor']
+                ];
+            }, $quotes);
+
+            $rate = array(
+                'id' => $this->id . $key,
+                'label' => "{$deadline_text}",
+                'cost' => $merged_quote['preco_frete'],
+                'meta_data' => array('freterapido_quotes' => $meta_data),
+            );
+
+            if ($this->shipping_cheap_free == 'yes') {
+                $rate['label'] .= ': Frete Grátis';
+                $rate['cost'] = 0;
+            }
+
+            $this->add_rate($rate);
+        }
     }
 
     private function find_category($category_id) {
