@@ -36,12 +36,13 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: **WooCommerce** > **Configurações** > **Entrega** > **Frete Rápido** (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/configuracao_plugin.png "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/module_page.png "Configurações do módulo")
 
 - **Habilitar/Desabilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
 - **Resultados:** Define como deseja receber as cotações.
 - **Limite:** Permitir limitar, até 20, a quantidade de cotações que deseja apresentar ao visitante.
+- **Exibir Frete Grátis no frete mais barato:** Apresenta para o cliente da loja o frete mais barato como **Frete Grátis**.
 - **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
 - **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
 - **Altura padrão (cm):** Define a altura padrão dos produtos que não tiverem altura informada.
