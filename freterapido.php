@@ -424,7 +424,7 @@ if (!class_exists('WC_Freterapido_Main')) :
             ['name' => 'Material Odontológico', 'code' => 42],
             ['name' => 'Material Pet Shop / Rações', 'code' => 43],
             ['name' => 'Material Veterinário', 'code' => 44],
-            ['name' => 'Móveis / Utensílios', 'code' => 45],
+            ['name' => 'Móveis montados', 'code' => 45],
             ['name' => 'Moto Peças', 'code' => 46],
             ['name' => 'Mudas / Plantas', 'code' => 47],
             ['name' => 'Papelaria / Documentos', 'code' => 48],
@@ -443,6 +443,16 @@ if (!class_exists('WC_Freterapido_Main')) :
             ['name' => 'Vidros / Frágil', 'code' => 61],
             ['name' => 'Cargas refrigeradas/congeladas', 'code' => 62],
             ['name' => 'Papelão', 'code' => 63],
+            ['name' => 'Móveis desmontados', 'code' => 64],
+            ['name' => 'Sofá', 'code' => 65],
+            ['name' => 'Colchão', 'code' => 66],
+            ['name' => 'Travesseiro', 'code' => 67],
+            ['name' => 'Móveis com peças de vidro', 'code' => 68],
+            ['name' => 'Acessórios de Airsoft / Paintball', 'code' => 69],
+            ['name' => 'Acessórios de Pesca ', 'code' => 70],
+            ['name' => 'Simulacro de Arma / Airsoft', 'code' => 71],
+            ['name' => 'Arquearia', 'code' => 72],
+            ['name' => 'Acessórios de Arquearia', 'code' => 73],
             ['name' => 'Outros', 'code' => 999],
         ];
 
@@ -525,6 +535,7 @@ if (!class_exists('WC_Freterapido_Main')) :
 
         $hire_shipping = new WC_Freterapido_Hire_Shipping($settings['token']);
         $hire_shipping
+            ->add_order($order_id)
             ->add_sender(array('cnpj' => $settings['cnpj']))
             ->add_receiver(
                 array(
