@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2017-02-03 16:28-0200\n"
-"PO-Revision-Date: 2017-05-15 11:58-0300\n"
+"PO-Revision-Date: 2017-05-23 13:59-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -44,6 +44,9 @@ msgstr "Escolha um limite de resultados"
 
 msgid "Show Free Shipping on Cheapest Shipping"
 msgstr "Exibir Frete Grátis no frete mais barato"
+
+msgid "Minimum value Free Shipping"
+msgstr "Valor mínimo Frete Grátis"
 
 msgid "Integration Token with Frete Rápido"
 msgstr "Token de integração com o Frete Rápido"

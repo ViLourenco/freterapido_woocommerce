@@ -92,6 +92,11 @@ return array(
         'label' => __('Enable', 'freterapido'),
         'default' => 'no',
     ),
+    'min_value_free_shipping' => array(
+        'title' => __('Minimum value Free Shipping', 'freterapido'),
+        'type' => 'text',
+        'placeholder' => '0.00'
+    ),
     'Dimensões padrão' => array(
         'title' => __('Default dimensions', 'freterapido'),
         'type' => 'title',

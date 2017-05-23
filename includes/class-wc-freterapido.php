@@ -45,6 +45,7 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->limit = $this->get_option('limit');
         $this->token = $this->get_option('token');
         $this->shipping_cheap_free = $this->get_option('shipping_cheap_free');
+        $this->min_value_free_shipping = $this->get_option('min_value_free_shipping');
 
         // Active logs.
         if ('yes' == $this->debug) {
@@ -284,8 +285,9 @@ class WC_Freterapido extends WC_Shipping_Method {
             }, $quotes);
         }
 
-        foreach ($new_quotes as $key => $quotes) {
-            $merged_quote = array_reduce($quotes, function ($carry, $item) {
+        // Mescla as cotações que caso tenha 2+ origens
+        $merged_quotes = array_map(function ($quotes) {
+            return array_reduce($quotes, function ($carry, $item) {
                 $offer = array_shift($item['transportadoras']);
 
                 if (!$carry) {
@@ -301,6 +303,18 @@ class WC_Freterapido extends WC_Shipping_Method {
 
                 return $carry;
             });
+        }, $new_quotes);
+
+        $order_by_keys = ['preco_frete', 'prazo_entrega'];
+
+        $is_free_shipping_enabled = $this->shipping_cheap_free == 'yes' && WC()->cart->cart_contents_total >= $this->min_value_free_shipping;
+
+        // Pega o frete mais barato
+        $offers_ordered = WC_Freterapido_Helpers::array_order_by($merged_quotes, $order_by_keys[0], SORT_ASC, $order_by_keys[1], SORT_ASC);
+        $free_shipping = array_shift($offers_ordered);
+
+        foreach ($new_quotes as $key => $quotes) {
+            $merged_quote = $merged_quotes[$key];
 
             $manufacturing_deadline = array_reduce($products, function ($carry, $product) {
                 if ($carry < $product['prazo_fabricacao']) {
@@ -332,7 +346,7 @@ class WC_Freterapido extends WC_Shipping_Method {
                 'meta_data' => array('freterapido_quotes' => $meta_data),
             );
 
-            if ($this->shipping_cheap_free == 'yes') {
+            if ($is_free_shipping_enabled && $merged_quote['oferta'] == $free_shipping['oferta']) {
                 $rate['label'] .= ': Frete Grátis';
                 $rate['cost'] = 0;
             }
