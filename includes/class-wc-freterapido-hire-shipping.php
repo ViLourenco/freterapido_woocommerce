@@ -9,6 +9,7 @@ class WC_Freterapido_Hire_Shipping {
     private $sender;
     private $receiver;
     private $dispatcher;
+    private $order_number;
 
     public function __construct($token) {
         $this->token = $token;
@@ -32,8 +33,14 @@ class WC_Freterapido_Hire_Shipping {
         return $this;
     }
 
+    public function add_order($number) {
+        $this->order_number = $number;
+
+        return $this;
+    }
+
     private function format_request() {
-        $request = array();
+        $request = array(['numero_pedido' => $this->order_number]);
 
         if ($this->dispatcher) {
             $request['expedidor'] = $this->dispatcher;

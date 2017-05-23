@@ -535,6 +535,7 @@ if (!class_exists('WC_Freterapido_Main')) :
 
         $hire_shipping = new WC_Freterapido_Hire_Shipping($settings['token']);
         $hire_shipping
+            ->add_order($order_id)
             ->add_sender(array('cnpj' => $settings['cnpj']))
             ->add_receiver(
                 array(
