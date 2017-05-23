@@ -22,9 +22,9 @@ Links úteis:
 - [Baixe aqui a última versão][4], descompacte o conteúdo do arquivo zip dentro da pasta "wp-content/plugins", ou instale usando o instalador de plugins do WordPress.
 - Ative o plugin.
 
-![Instalando o plugin](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/plugin_install.gif "Procedimento de Instalação")
+![Instalando o plugin](docs/img/plugin_install.gif "Procedimento de Instalação")
 
-![Mensagem de atenção para backup da loja](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/attention_2.png "#FicaDica ;)")
+![Mensagem de atenção para backup da loja](docs/img/attention_2.png "#FicaDica ;)")
 
 ----------
 
@@ -36,7 +36,7 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: **WooCommerce** > **Configurações** > **Entrega** > **Frete Rápido** (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/module_page.png "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](docs/img/module_page.png "Configurações do módulo")
 
 - **Habilitar/Desabilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
@@ -54,7 +54,7 @@ Links úteis:
 
 > **Obs:** Você também pode configurar o prazo de fabricação do produto, caso haja. Ele será acrescido no prazo de entrega do frete.
 
-![Configurando as medidas das embalagens e peso dos produtos](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/product_settings.gif "Configuração das informações dos produtos")
+![Configurando as medidas das embalagens e peso dos produtos](docs/img/product_settings.gif "Configuração das informações dos produtos")
 
 > **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
 > É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco, e, neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin.
@@ -63,7 +63,7 @@ Links úteis:
 #### 3. Categorias
 - Cada categoria da sua loja precisa estar relacionada com as categorias do Frete Rápido. Você pode configurar isso em: **Produtos** > **Categorias**.
 
-![Configuração de categorias ](https://freterapido.com/dev/imgs/woocommerce_2.6_doc/freterapido/categoria_edicao.png "Configuração de categorias")
+![Configuração de categorias ](docs/img/categoria_edicao.png "Configuração de categorias")
 
 > **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
 
