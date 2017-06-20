@@ -521,7 +521,7 @@ if (!class_exists('WC_Freterapido_Main')) :
 
         // Verifica se o frete contratado é do Frete Rápido
         $method = array_filter($order->get_shipping_methods(), function ($method) {
-            return $method['method_id'] == 'freterapido';
+            return strrpos($method['method_id'], 'freterapido') !== false;
         });
 
         if (empty($method)) {
