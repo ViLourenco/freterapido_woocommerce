@@ -26,19 +26,19 @@ class WC_Freterapido extends WC_Shipping_Method {
         $this->init();
     }
 
-	/**
-	 * Initializes the method.
-	 *
-	 * @return void
-	 */
-	public function init() {
+    /**
+     * Initializes the method.
+     *
+     * @return void
+     */
+    public function init() {
         // Load the form fields.
         $this->init_form_fields();
 
         // Load the settings.
         $this->init_settings();
 
-		// Define user set variables.
+        // Define user set variables.
         $this->enabled = $this->get_option('enabled');
         $this->cnpj = $this->get_option('cnpj');
         $this->results = $this->get_option('results');
@@ -56,30 +56,30 @@ class WC_Freterapido extends WC_Shipping_Method {
 
         // Actions.
         add_action('woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
-	}
+    }
 
-	/**
-	 * Admin options fields.
-	 *
-	 * @return void
-	 */
-	public function init_form_fields() {
+    /**
+     * Admin options fields.
+     *
+     * @return void
+     */
+    public function init_form_fields() {
         $this->instance_form_fields  = include( 'data-wf-settings.php' );
 
         $this->form_fields = $this->instance_form_fields;
-	}
+    }
 
-	/**
-	 * Frete Rápido options page.
-	 *
-	 * @return void
-	 */
-	public function admin_options() {
-		echo '<h2>' . $this->method_title . '</h2>';
-		echo '<table class="form-table">';
-		$this->generate_settings_html();
-		echo '</table>';
-	}
+    /**
+     * Frete Rápido options page.
+     *
+     * @return void
+     */
+    public function admin_options() {
+        echo '<h2>' . $this->method_title . '</h2>';
+        echo '<table class="form-table">';
+        $this->generate_settings_html();
+        echo '</table>';
+    }
 
     /**
      * Checks if the method is available.
@@ -327,7 +327,7 @@ class WC_Freterapido extends WC_Shipping_Method {
             $merged_quote['prazo_entrega'] += $manufacturing_deadline;
 
             $deadline = $merged_quote['prazo_entrega'];
-            $deadline_text = sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline);
+            $deadline_text = $merged_quote['nome'] . ' - ' . sprintf(_n('Delivery in %d working day', 'Delivery in %d working days', $deadline, 'freterapido'), $deadline);
 
             $meta_data = array_map(function ($quote) {
                 $offer = array_shift($quote['transportadoras']);
