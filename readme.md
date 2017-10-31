@@ -22,7 +22,7 @@ Links úteis:
 ### IMPORTANTE
 A Frete Rápido não mantem e/ou oferece suporte para a integração com o **WooCommerce**, apenas disponibilizamos um módulo de integração padrão que atente a maioria dos e-commerces que utilizam esta plataforma.
 
-Para qualquer modificação no módulo baseada no modelo de negócio do seu e-commerce, nós disponibilizamos aqui o código fonte do módulo integrado a (API do Frete Rápido) e aqui [neste link][7] você encontra a documentação de integrações e modificações do **WooCommerce**.
+Para qualquer modificação no módulo baseada no modelo de negócio do seu e-commerce, nós disponibilizamos aqui o código fonte do módulo integrado a [API do Frete Rápido][8] e aqui [neste link][7] você encontra a documentação de integrações e modificações do **WooCommerce**.
 
 --------------
 
@@ -121,3 +121,4 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 [5]: https://github.com/freterapido/freterapido_woocommerce/blob/master/LICENSE
 [6]: https://github.com/freterapido/freterapido_woocommerce_2.6_shipping_product_page
 [7]: https://woocommerce.com/developers/
+[8]: https://www.freterapido.com/dev/
