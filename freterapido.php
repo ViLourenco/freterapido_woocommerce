@@ -565,6 +565,7 @@ if (!class_exists('WC_Freterapido_Main')) :
                 $response = $hire_shipping
                     ->add_dispatcher($dispatcher)
                     ->hire_quote($item['token'], $item['oferta']);
+                    
                 $results = array_merge($results, array_values($response));
             } catch (Exception $e) {
                 continue;
