@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-02-03 16:28-0200\n"
+"PO-Revision-Date: 2017-05-23 13:59-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: pt_BR\n"
+
+msgid "Delivery in %d working day"
+msgid_plural "Delivery in %d working days"
+msgstr[0] "Entrega em %d dia útil"
+msgstr[1] "Entrega em %d dias úteis"
+
+msgid "Enable/Disable"
+msgstr "Habilitar/Desabilitar"
+
+msgid "Enable"
+msgstr "Habilitar"
+
+msgid "Results"
+msgstr "Resultados"
+
+msgid "Activated"
+msgstr "Ativado"
+
+msgid "How would you like to receive the results?"
+msgstr "Como você gostaria de receber os resultados?"
+
+msgid "CNPJ from your store"
+msgstr "CNPJ cadastrado no Frete Rápido"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Choose a result limit"
+msgstr "Escolha um limite de resultados"
+
+msgid "Show Free Shipping on Cheapest Shipping"
+msgstr "Exibir Frete Grátis no frete mais barato"
+
+msgid "Minimum value Free Shipping"
+msgstr "Valor mínimo Frete Grátis"
+
+msgid "Integration Token with Frete Rápido"
+msgstr "Token de integração com o Frete Rápido"
+
+msgid "Manufacturing deadline"
+msgstr "Prazo de fabricação"
+
+msgid "Will be added to the delivery time"
+msgstr "Será somado ao prazo de entrega"
+
+msgid "Default dimensions"
+msgstr "Dimensões padrões"
+
+msgid "They will be used if the dimensions of the products have not been informed <b>(in meters)</b>"
+msgstr "Serão usadas caso as dimensões dos produtos não tenham sido informadas <b>(em metros)</b>"
+
+msgid "Minimum length"
+msgstr "Comprimento padrão (cm)"
+
+msgid "Minimum width"
+msgstr "Largura  padrão (cm)"
+
+msgid "Minimum height"
+msgstr "Altura  padrão (cm)"
+
+msgid "Shipping codes contracted:"
+msgstr "Códigos dos fretes contratados:"
+
+msgid "Shipping code contracted:"
+msgid_plural "Shipping codes contracted:"
+msgstr[0] "Código do frete contratado:"
+msgstr[1] "Códigos dos fretes contratados:"
+
+msgid "Awaiting shipment"
+msgstr "À espera do envio"
+
+msgid "Waiting for status:"
+msgstr "Aguardando status:"
+
+msgid "Awaiting shipment <span class=\"count\">(%s)</span>"
+msgstr "À espera do envio <span class=\"count\">(%s)</span>"
+
+msgid "Only numbers"
+msgstr "Apenas números"
