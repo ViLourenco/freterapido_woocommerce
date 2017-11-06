@@ -123,6 +123,8 @@ Para cálculo do frete na página do produto, você precisa utilizar o plugin es
 
 * Ao alterar o status para ***"À espera do envio"*** o frete é contratado automaticamente.
 ![Contratar o frete](docs/img/pedido_sem_frete_contratado.png "Contratando o frete")
+
+* Após contratar, é disponibilizado o identificador do frete que leva para a página de rastreio.
 ![Frete contratado](docs/img/pedido_frete_contratado.png "Frete contratado")
 
 ---------------
