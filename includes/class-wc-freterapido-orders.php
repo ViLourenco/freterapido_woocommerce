@@ -57,6 +57,7 @@ class WC_Freterapido_Orders {
             	preg_replace("/\W/", '', $shipping) .
             	"'>{$shipping}</a></td></tr>";
         }
+        
         echo    '</tbody></table></div>';
 	}
 
