@@ -119,7 +119,7 @@ Para cálculo do frete na página do produto, você precisa utilizar o plugin es
 É possível contratar o frete diretamente na área administrativa da loja, no detalhamento do pedido do cliente.
 
 * Abra o pedido em WooCommerce > Pedidos (1) e clique Editar (2) ou Visualizar (3).
-![Caminho para contratar o frete](docs/img/lista_pedidos.png "Detalhamento do pedido")
+![Caminho para contratar o frete](docs/img/pedidos.png "Detalhamento do pedido")
 
 * Ao alterar o status para ***"À espera do envio"*** o frete é contratado automaticamente.
 ![Contratar o frete](docs/img/pedido_sem_frete_contratado.png "Contratando o frete")
