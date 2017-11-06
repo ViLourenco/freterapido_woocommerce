@@ -17,14 +17,28 @@ Links úteis:
 - [Painel administrativo][2]
 - [suporte@freterapido.com][3]
 
--------------
+---------------
 
 ### IMPORTANTE
-A Frete Rápido não mantem e/ou oferece suporte para a integração com o **WooCommerce**, apenas disponibilizamos um módulo de integração padrão que atente a maioria dos e-commerces que utilizam esta plataforma.
+A Frete Rápido não mantem e/ou oferece suporte para a integração com o **WooCommerce**, apenas disponibilizamos um módulo de integração padrão que atende a maioria dos e-commerces que utilizam esta plataforma.
 
 Para qualquer modificação no módulo baseada no modelo de negócio do seu e-commerce, nós disponibilizamos aqui o código fonte do módulo integrado a [API do Frete Rápido][8] e aqui [neste link][7] você encontra a documentação de integrações e modificações do **WooCommerce**.
 
---------------
+---------------
+
+### Plugin adicional
+
+Para o correto funcionamento do módulo do Frete Rápido é **obrigatória** a utilização do plugin [WooCommerce Extra Checkout Fields for Brazil][9] para que sejam informados os campos adicionais do destinatário durante o checkout, como CPF, RG, CNPJ e Inscrição Estadual.
+A instalação é simples, basta seguir os passos no seu painel WordPress:  
+
+1. Acesse o menu Plugins > Adicionar novo
+2. No campo de pesquisa procure por WooCommerce Extra Checkout Fields for Brazil
+3. Quando aparecer o plugin pesquisado clique em Instalar e depois em Ativar
+4. Depois de instalado, basta acessar o menu WooCommerce > Campos do checkout e realizar as configurações do plugin
+    
+Para mais informações você pode visitar o link do plugin no [WooCommerce.org][9] ou [Github][10].
+
+---------------
 
 ### Instalação
 
@@ -38,7 +52,7 @@ Para qualquer modificação no módulo baseada no modelo de negócio do seu e-co
 
 ![Mensagem de atenção para backup da loja](docs/img/attention_2.png "#FicaDica ;)")
 
-----------
+---------------
 
 ### Configurações
 
@@ -86,19 +100,32 @@ Para qualquer modificação no módulo baseada no modelo de negócio do seu e-co
 
 > **Exemplo 3**: Violões -> Instrumento Musical
 
---------
+---------------
 
 ### Observações gerais:
 1. Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 2. Esse módulo atende cotações apenas para destinatários Pessoa Física.
 
-----------
+---------------
 
 ### Cálculo do frete na página do produto
 
 Para cálculo do frete na página do produto, você precisa utilizar o plugin específico do Frete Rápido. Para instalá-lo, basta acessar sua documentação em [freterapido_woocommerce_2.6_shipping_product_page][6].
 
---------
+---------------
+
+### Contratação do Frete
+
+É possível contratar o frete diretamente na área administrativa da loja, no detalhamento do pedido do cliente.
+
+* Abra o pedido em WooCommerce > Pedidos (1) e clique Editar (2) ou Visualizar (3).
+![Caminho para contratar o frete](docs/img/lista_pedidos.png "Detalhamento do pedido")
+
+* Ao alterar o status para ***"À espera do envio"*** o frete é contratado automaticamente.
+![Contratar o frete](docs/img/pedido_sem_frete_contratado.png "Contratando o frete")
+![Frete contratado](docs/img/pedido_frete_contratado.png "Frete contratado")
+
+---------------
 
 ### Contribuições
 Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não se acanhe, nos envie um *pull request* com a sua alteração e ajude este projeto a ficar ainda melhor.
@@ -109,7 +136,7 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 4. Faça o push para a branch: ` $ git push origin feature/nova-funcionalidade`
 5. Crie um novo Pull Request
 
---------
+---------------
 
 ### Licença
 [MIT][5]
@@ -122,3 +149,5 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 [6]: https://github.com/freterapido/freterapido_woocommerce_2.6_shipping_product_page
 [7]: https://woocommerce.com/developers/
 [8]: https://www.freterapido.com/dev/
+[9]: https://wordpress.org/plugins/woocommerce-extra-checkout-fields-for-brazil/
+[10]: https://github.com/claudiosanches/woocommerce-extra-checkout-fields-for-brazil
