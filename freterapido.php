@@ -57,6 +57,8 @@ if (!class_exists('WC_Freterapido_Main')) :
 
                 add_filter('woocommerce_shipping_methods', array($this, 'wcfreterapido_add_method'));
 
+                add_action( 'admin_enqueue_scripts', array( $this, 'wcfreterapido_rapido_awaiting_shipment_admin_style' ) );
+
             } else {
                 add_action('admin_notices', array($this, 'wcfreterapido_woocommerce_fallback_notice'));
             }
@@ -126,6 +128,18 @@ if (!class_exists('WC_Freterapido_Main')) :
 
             return $methods;
         }
+
+        /**
+         * Add the admin style to show the awayiting shipment icon on edit page
+         * @param string $hook current page
+         */
+        public function wcfreterapido_rapido_awaiting_shipment_admin_style( $hook ) {
+            if( 'edit.php' != $hook ) {
+                return;
+            }
+            wp_enqueue_style( 'shipment_admin_style', plugins_url( 'includes/css/shipment_admin_style.css', __FILE__ ) );
+        }
+
 
     }
 
@@ -565,7 +579,7 @@ if (!class_exists('WC_Freterapido_Main')) :
                 $response = $hire_shipping
                     ->add_dispatcher($dispatcher)
                     ->hire_quote($item['token'], $item['oferta']);
-                    
+
                 $results = array_merge($results, array_values($response));
             } catch (Exception $e) {
                 continue;
