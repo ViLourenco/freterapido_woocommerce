@@ -45,20 +45,20 @@ class WC_Freterapido_Orders {
 	 * @param WP_Post $post Post data.
 	 */
 	public function metabox_content( $post ) {
-	    $shippings = wc_get_order_item_meta($post->ID, 'freterapido_shippings') ?: array();
+		$shippings = wc_get_order_item_meta( $post->ID, 'freterapido_shippings' ) ?: array();
 
-        echo '<div><p><strong>' . _n('Shipping code contracted:', 'Shipping codes contracted:', count($shippings), 'freterapido') . '</strong></p><table id="newmeta"><tbody>';
-        if (empty($shippings)) {
-            echo '<tr><td>' . __('Waiting for status:', 'freterapido') . ' <b>' . __('Awaiting shipment', 'freterapido') . '</b></td></tr>';
-        }
+		echo '<div><p><strong>' . _n( 'Shipping code contracted:', 'Shipping codes contracted:', count( $shippings ), 'freterapido' ) . '</strong></p><table id="newmeta"><tbody>';
+		if ( empty( $shippings ) ) {
+			echo '<tr><td>' . __( 'Waiting for status:', 'freterapido' ) . ' <b>' . __( 'Awaiting shipment', 'freterapido' ) . '</b></td></tr>';
+		}
 
-        foreach ($shippings as $shipping) {
-            echo "<tr><td><a target='_blank' href='https://freterapido.com/rastreio/#/" .
-            	preg_replace("/\W/", '', $shipping) .
-            	"'>{$shipping}</a></td></tr>";
-        }
-        
-        echo    '</tbody></table></div>';
+		foreach ( $shippings as $shipping ) {
+			echo "<tr><td><a target='_blank' href='https://freterapido.com/rastreio/#/" .
+				preg_replace( '/\W/', '', $shipping ) .
+				"'>{$shipping}</a></td></tr>";
+		}
+
+		echo    '</tbody></table></div>';
 	}
 
 	/**
