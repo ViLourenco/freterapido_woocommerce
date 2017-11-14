@@ -10,7 +10,7 @@
 
 Versão do módulo: 1.0.3
 
-Compatibilidade com WooCommerce: **2.6.x** ao **3.0.8**
+Compatibilidade com WooCommerce: **2.6.x** ao **3.2.x**
 
 Links úteis:
 
