@@ -10,7 +10,7 @@
 
 Versão do módulo: 1.0.3
 
-Compatibilidade com WooCommerce: **2.6.x** ao **3.0.8**
+Compatibilidade com WooCommerce: **2.6.x** ao **3.2.x**
 
 Links úteis:
 
@@ -146,7 +146,7 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 
 [2]: https://freterapido.com/painel/?origin=github_woocommerce_freterapido "Painel do Frete Rápido"
 [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
-[4]: https://github.com/freterapido/freterapido_woocommerce_2.6/archive/master.zip
+[4]: https://github.com/freterapido/freterapido_woocommerce/archive/master.zip
 [5]: https://github.com/freterapido/freterapido_woocommerce/blob/master/LICENSE
 [6]: https://github.com/freterapido/freterapido_woocommerce_2.6_shipping_product_page
 [7]: https://woocommerce.com/developers/
